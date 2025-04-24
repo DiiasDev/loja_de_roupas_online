@@ -1,8 +1,9 @@
 <template>
   <v-app>
-    <v-main>
       <LoginVue />
-    </v-main>
+      <footer class="d-flex justify-center footer">
+            <p>&copy; DiiasDev</p>
+      </footer>
   </v-app>
 </template>
 
@@ -30,3 +31,16 @@ export default {
     },
 }
 </script>
+
+<style>
+.footer{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #1976D2;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
+</style>
