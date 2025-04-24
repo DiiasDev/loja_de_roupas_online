@@ -7,10 +7,11 @@
                 </v-card-title>
                 <v-card-text>
                     <v-form>
-                        <v-text-field label="Email" type="email" required></v-text-field>
-                        <v-text-field label="Senha" type="password" required></v-text-field>
-                        <v-btn color="primary" class="mt-4">Entrar</v-btn>
-                        <v-card-text>Ainda não tem login? Clique <strong style="cursor: pointer;" @click="openModal">aqui</strong> para
+                        <v-text-field label="Email" type="email" v-model="email" required></v-text-field>
+                        <v-text-field label="Senha" type="password" v-model="password" required></v-text-field>
+                        <v-btn color="primary" @click="isLoged" class="mt-4">Entrar</v-btn>
+                        <v-card-text>Ainda não tem login? Clique <strong style="cursor: pointer;"
+                                @click="openModal">aqui</strong> para
                             cadastrar.</v-card-text>
                     </v-form>
                 </v-card-text>
@@ -32,6 +33,9 @@ export default {
     data() {
         return {
             display: useDisplay(),
+            email: '',
+            password: '',
+            exibeMessage: '',
         }
     },
     computed: {
@@ -45,6 +49,23 @@ export default {
                 this.appStore.modalCadastro = true;
             } catch (e) {
                 console.error("Erro ao abrir o modal: ", e);
+            }
+        },
+        isLoged() {
+            try {
+                const user = this.appStore.user;
+                const userExist = user.find(e => e.email === this.email && e.password === this.password);
+
+                if (!userExist) {
+                    alert('Usuário não encontrado!');
+                    return;
+                }
+
+                alert('Login realizado com sucesso!');
+                this.appStore.isLoged = true;
+            }
+           catch (e) {
+                console.error("Erro ao realizar login: ", e);
             }
         }
     }

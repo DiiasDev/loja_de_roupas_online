@@ -19,7 +19,6 @@ export default {
 
   data() {
     return {
-
     }
   },
   mounted() {
@@ -29,6 +28,8 @@ export default {
             return useAppStore();
         },
     },
+    methods:{
+    }
 }
 </script>
 

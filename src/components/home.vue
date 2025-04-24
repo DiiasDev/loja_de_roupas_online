@@ -1,0 +1,30 @@
+<template>
+    <v-row>
+        <v-col>
+
+        </v-col>
+    </v-row>
+</template>
+
+<script>
+import { useAppStore } from '../store/app.ts'
+export default {
+    name: 'home',
+    data() {
+        return {
+
+        }
+    },
+    computed: {
+        appStore() {
+            return useAppStore();
+        },
+    },
+    computed: {
+
+    },
+    methods: {
+
+    }
+}
+</script>
