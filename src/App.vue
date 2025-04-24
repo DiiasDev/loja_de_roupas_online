@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="body">
       <LoginVue />
       <footer class="d-flex justify-center footer">
             <p>&copy; DiiasDev</p>
@@ -42,5 +42,9 @@ export default {
     color: white;
     text-align: center;
     padding: 10px 0;
+}
+
+.body{
+    background-image: linear-gradient(to right top, #3fcdff, #36a4d6, #2d7cac, #225782, #143559);
 }
 </style>
