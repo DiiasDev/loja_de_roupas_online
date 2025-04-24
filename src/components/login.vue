@@ -13,6 +13,7 @@
                         <v-card-text>Ainda não tem login? Clique <strong style="cursor: pointer;"
                                 @click="openModal">aqui</strong> para
                             cadastrar.</v-card-text>
+                        <v-card-text v-html="exibeMessage"></v-card-text>
                     </v-form>
                 </v-card-text>
             </v-card>
@@ -53,18 +54,19 @@ export default {
         },
         isLoged() {
             try {
-                const user = this.appStore.user;
-                const userExist = user.find(e => e.email === this.email && e.password === this.password);
+                const userString = localStorage.getItem('user');
+                const users = JSON.parse(userString);
+                const userExist = users.find(e => e.email === this.email && e.password === this.password);
 
                 if (!userExist) {
-                    alert('Usuário não encontrado!');
+                    this.exibeMessage = `<v-card-text style="color: red;">Email ou Senha incorreto!</v-card-text>`;
                     return;
                 }
-
-                alert('Login realizado com sucesso!');
-                this.appStore.isLoged = true;
-            }
-           catch (e) {
+                this.exibeMessage = `<v-card-text style="color: blue;">Logando...</v-card-text>`;
+                    setTimeout(() => {
+                        this.appStore.isLoged = true;
+                    },1500)
+            } catch (e) {
                 console.error("Erro ao realizar login: ", e);
             }
         }

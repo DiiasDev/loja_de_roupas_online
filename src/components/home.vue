@@ -9,7 +9,7 @@
 <script>
 import { useAppStore } from '../store/app.ts'
 export default {
-    name: 'home',
+    name: 'HomeVue',
     data() {
         return {
 
@@ -19,9 +19,6 @@ export default {
         appStore() {
             return useAppStore();
         },
-    },
-    computed: {
-
     },
     methods: {
 

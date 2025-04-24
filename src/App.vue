@@ -1,6 +1,7 @@
 <template>
   <v-app class="body">
-      <LoginVue />
+      <LoginVue v-if="appStore.isLoged == false" />
+      <HomeVue v-else />
       <footer class="d-flex justify-center footer">
             <p>&copy; DiiasDev</p>
       </footer>
@@ -10,11 +11,13 @@
 <script>
 import {useAppStore} from './store/app.ts'
 import LoginVue from './components/login.vue'
+import HomeVue from './components/home.vue'
 export default {
   name: 'App',
 
   components: {
-    LoginVue
+    LoginVue,
+    HomeVue
   },
 
   data() {
