@@ -48,7 +48,21 @@ export default {
     padding: 10px 0;
 }
 
+/* Adicionei um padding-bottom para evitar que os cards cubram o footer */
+.v-main {
+    padding-bottom: 60px;
+}
+
+/* html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+} */
 .body{
     background-image: linear-gradient(to right top, #3fcdff, #36a4d6, #2d7cac, #225782, #143559);
 }
+
+
 </style>
