@@ -12,7 +12,8 @@ export const useAppStore = defineStore("app", {
       }
     })(),
     isLoged: JSON.parse(localStorage.getItem('isLoged') || 'false'),
-    modalCarrinho: false
+    modalCarrinho: false,
+    modalSuporte: false
   }),
   getters: {},
   actions: {

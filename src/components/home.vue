@@ -17,11 +17,11 @@
 
             <v-list density="compact" nav>
                 <v-list-item prepend-icon="mdi-home" title="Início" value="home" />
-                <v-list-item prepend-icon="mdi-sale" title="Ofertas" value="offers" />
+                <v-list-item prepend-icon="mdi-package-variant" title="Produtos" value="produtos" />
                 <v-list-item prepend-icon="mdi-account" title="Meu Perfil" value="profile" />
                 <v-list-item @click="openCarrinho" prepend-icon="mdi-cart" title="Carrinho" value="cart" />
                 <v-list-item prepend-icon="mdi-information" title="Sobre a Loja" value="about" />
-                <v-list-item prepend-icon="mdi-face-agent" title="Suporte" value="support" />
+                <v-list-item @click="openModalSuporte" prepend-icon="mdi-face-agent" title="Suporte" value="support" />
             </v-list>
         </v-navigation-drawer>
 
@@ -50,6 +50,7 @@
                     </v-col>
                 </v-row>
                 <CarrinhoDeCompras/>
+                <modalSuporte/>
             </v-container>
         </v-main>
     </v-layout>
@@ -59,11 +60,13 @@
 <script>
 import { useAppStore } from '../store/app.ts'
 import bannerImage from '@/assets/novawear.png';
-import CarrinhoDeCompras from '../components/modals/carrinhoDeCompras.vue'
+import CarrinhoDeCompras from './modals/carrinhoDeCompras.vue'
+import modalSuporte from './modals/suporte.vue'
 export default {
     name: 'HomeVue',
     components: {
-        CarrinhoDeCompras
+        CarrinhoDeCompras,
+        modalSuporte
     },
     data() {
         return {
@@ -92,6 +95,9 @@ export default {
     methods: {
         openCarrinho(){
             this.appStore.modalCarrinho = true
+        },
+        openModalSuporte(){
+            this.appStore.modalSuporte = true
         }
 
     }
