@@ -1,9 +1,7 @@
 <template>
     <v-layout full-height>
-        <!-- Navigation Drawer Fixo -->
         <v-navigation-drawer expand-on-hover rail permanent app
         style="position: fixed; top: 0; left: 0; height: 100vh; overflow-y: auto;">
-            <!-- Perfil do usuário -->
             <v-list>
                 <v-list-item prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg" subtitle="user@gmail.com"
                     title="Nome Sobrenome">
@@ -17,7 +15,6 @@
 
             <v-divider />
 
-            <!-- Menu de navegação -->
             <v-list density="compact" nav>
                 <v-list-item prepend-icon="mdi-home" title="Início" value="home" />
                 <v-list-item prepend-icon="mdi-sale" title="Ofertas" value="offers" />
@@ -28,10 +25,8 @@
             </v-list>
         </v-navigation-drawer>
 
-        <!-- Conteúdo principal -->
         <v-main>
             <v-container>
-                <!-- Banner -->
                 <v-row>
                     <v-col class="d-flex justify-center">
                         <v-card class="mt-3" height="35vh" width="80vw" :style="bannerStyle">
@@ -39,7 +34,6 @@
                     </v-col>
                 </v-row>
 
-                <!-- Cards de Produtos -->
                 <v-row>
                     <v-col v-for="(product, index) in products" :key="index" cols="12" sm="6" md="4" lg="3">
                         <v-card class="elevation-10" :hover="true" style="border-radius: 12px;">
