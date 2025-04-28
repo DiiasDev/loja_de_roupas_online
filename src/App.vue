@@ -2,6 +2,7 @@
   <v-app class="body">
       <LoginVue v-if="appStore.isLoged == false" />
       <HomeVue v-else />
+      <MeuPerfil v-if="appStore.isPerfil == false"/>
       <footer class="d-flex justify-center footer">
             <p>&copy; DiiasDev</p>
       </footer>

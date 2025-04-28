@@ -101,6 +101,9 @@ export default {
         },
         inicio() {
             window.location.href = './components/home.vue';
+        },
+        redireciona(){
+            
         }
 
     }
