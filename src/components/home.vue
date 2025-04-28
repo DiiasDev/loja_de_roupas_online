@@ -1,7 +1,7 @@
 <template>
     <v-layout full-height>
         <v-navigation-drawer expand-on-hover rail permanent app
-        style="position: fixed; top: 0; left: 0; height: 100vh; overflow-y: auto;">
+            style="position: fixed; top: 0; left: 0; height: 100vh; overflow-y: auto;">
             <v-list>
                 <v-list-item prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg" subtitle="user@gmail.com"
                     title="Nome Sobrenome">
@@ -19,7 +19,7 @@
                 <v-list-item prepend-icon="mdi-home" title="Início" value="home" />
                 <v-list-item prepend-icon="mdi-sale" title="Ofertas" value="offers" />
                 <v-list-item prepend-icon="mdi-account" title="Meu Perfil" value="profile" />
-                <v-list-item prepend-icon="mdi-cart" title="Carrinho" value="cart" />
+                <v-list-item @click="openCarrinho" prepend-icon="mdi-cart" title="Carrinho" value="cart" />
                 <v-list-item prepend-icon="mdi-information" title="Sobre a Loja" value="about" />
                 <v-list-item prepend-icon="mdi-face-agent" title="Suporte" value="support" />
             </v-list>
@@ -40,7 +40,7 @@
                             <v-img :src="product.image" height="200px" style="border-radius: 12px 12px 0 0;" />
                             <v-card-title class="text-h6">{{ product.name }}</v-card-title>
                             <v-card-subtitle class="text-body-2" style="font-style: italic;">{{ product.description
-                                }}</v-card-subtitle>
+                            }}</v-card-subtitle>
                             <v-card-actions>
                                 <v-btn color="primary" style="width: 100%; font-weight: bold;">
                                     Adicionar ao Carrinho
@@ -49,7 +49,7 @@
                         </v-card>
                     </v-col>
                 </v-row>
-               
+                <CarrinhoDeCompras/>
             </v-container>
         </v-main>
     </v-layout>
@@ -59,8 +59,12 @@
 <script>
 import { useAppStore } from '../store/app.ts'
 import bannerImage from '@/assets/novawear.png';
+import CarrinhoDeCompras from '../components/modals/carrinhoDeCompras.vue'
 export default {
     name: 'HomeVue',
+    components: {
+        CarrinhoDeCompras
+    },
     data() {
         return {
             products: [
@@ -86,6 +90,9 @@ export default {
         },
     },
     methods: {
+        openCarrinho(){
+            this.appStore.modalCarrinho = true
+        }
 
     }
 }
