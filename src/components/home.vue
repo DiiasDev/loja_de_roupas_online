@@ -16,7 +16,7 @@
             <v-divider />
 
             <v-list density="compact" nav>
-                <v-list-item prepend-icon="mdi-home" title="Início" value="home" />
+                <v-list-item @click="inicio" prepend-icon="mdi-home" title="Início" value="home" />
                 <v-list-item prepend-icon="mdi-package-variant" title="Produtos" value="produtos" />
                 <v-list-item prepend-icon="mdi-account" title="Meu Perfil" value="profile" />
                 <v-list-item @click="openCarrinho" prepend-icon="mdi-cart" title="Carrinho" value="cart" />
@@ -40,7 +40,7 @@
                             <v-img :src="product.image" height="200px" style="border-radius: 12px 12px 0 0;" />
                             <v-card-title class="text-h6">{{ product.name }}</v-card-title>
                             <v-card-subtitle class="text-body-2" style="font-style: italic;">{{ product.description
-                            }}</v-card-subtitle>
+                                }}</v-card-subtitle>
                             <v-card-actions>
                                 <v-btn color="primary" style="width: 100%; font-weight: bold;">
                                     Adicionar ao Carrinho
@@ -49,8 +49,8 @@
                         </v-card>
                     </v-col>
                 </v-row>
-                <CarrinhoDeCompras/>
-                <modalSuporte/>
+                <CarrinhoDeCompras />
+                <modalSuporte />
             </v-container>
         </v-main>
     </v-layout>
@@ -93,11 +93,14 @@ export default {
         },
     },
     methods: {
-        openCarrinho(){
+        openCarrinho() {
             this.appStore.modalCarrinho = true
         },
-        openModalSuporte(){
+        openModalSuporte() {
             this.appStore.modalSuporte = true
+        },
+        inicio() {
+            window.location.href = './components/home.vue';
         }
 
     }
