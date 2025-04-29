@@ -23,9 +23,9 @@
 </template>
 
 <script>
-import { useAppStore } from '../store/app.ts'
+import { useAppStore } from '../../store/app.ts'
 import { useDisplay } from 'vuetify'
-import modalCadastro from './modals/modalCadastro.vue'
+import modalCadastro from '../modals/modalCadastro.vue'
 export default {
     name: 'LoginVue',
     components: {

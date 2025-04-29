@@ -1,0 +1,185 @@
+<template>
+  <v-row class="profile-row" align="start" justify="center">
+    <v-col cols="12" md="10" lg="8" xl="6">
+      <!-- Navegação -->
+      <navgation />
+
+      <!-- Cartão de Perfil -->
+      <v-card class="profile-card">
+        <v-card-title class="profile-title">
+          Meu Perfil 
+        </v-card-title>
+
+        <!-- Informações do Perfil -->
+        <v-card-text class="profile-info">
+          <v-row>
+            <!-- Imagem do Perfil -->
+            <v-col cols="12" md="4" class="d-flex justify-center">
+              <v-img class="profile-image"
+                src="https://www.cnnbrasil.com.br/wp-content/uploads/sites/12/2025/02/cristiano-ronaldo-al-nassr-contrato-e1739188302718.jpg?w=1200&h=1200&crop=1"
+                alt="Foto do Usuário"></v-img>
+            </v-col>
+
+            <!-- Detalhes do Perfil -->
+            <v-col cols="12" md="8">
+              <div class="profile-details">
+                <h3>Bem-vindo(a), [Nome do Usuário]! 👋</h3>
+                <p><strong>Email:</strong> usuario@exemplo.com</p>
+                <p><strong>Telefone:</strong> (XX) XXXX-XXXX</p>
+                <p><strong>Endereço:</strong> Rua Exemplo, 123, Bairro, Cidade, Estado</p>
+                <p><strong>Data de Nascimento:</strong> 01/01/1990</p>
+                <p><strong>Última Compra:</strong> 20/04/2025</p>
+
+                <div class="button-group">
+                  <v-btn color="primary" class="mt-4">Editar Perfil ✏️</v-btn>
+                  <v-btn color="secondary" class="mt-4" @click="handleLogout">Sair 🚪</v-btn>
+                </div>
+              </div>
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </v-card>
+    </v-col>
+  </v-row>
+</template>
+
+<script>
+import { useAppStore } from '@/store/app.ts'
+import navgation from '../reutilizaveis/navgation.vue';
+
+export default {
+  components: {
+    navgation
+  },
+  name: 'MeuPerfil',
+  data() {
+    return {};
+  },
+  computed: {
+    appStore() {
+      return useAppStore();
+    },
+  },
+  methods: {
+    handleLogout() {
+      // Lógica de logout (por exemplo, limpar sessão)
+      console.log("Usuário deslogado!");
+    }
+  }
+}
+</script>
+
+<style scoped>
+/* Estilo geral da página */
+.profile-row {
+  min-height: 100vh;
+  background-color: #f7f7f7;
+  /* Cor de fundo clara */
+  padding: 20px;
+}
+
+.profile-card {
+  background-color: #fff;
+  /* Fundo branco, mais clean e fácil de ler */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  /* Sombra mais forte para dar profundidade */
+  border-radius: 15px;
+  /* Bordas arredondadas */
+  padding: 20px;
+  margin-top: 30px;
+  /* Adiciona margem superior para separar do topo */
+  transition: all 0.3s ease;
+  /* Transição suave quando o card for interagido */
+}
+
+/* Efeito de hover para quando o usuário passar o mouse sobre o card */
+.profile-card:hover {
+  transform: translateY(-5px);
+  /* Levanta o card ao passar o mouse */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  /* Aumenta a sombra ao passar o mouse */
+}
+
+/* Alteração do título do card para uma cor mais destacada */
+.profile-title {
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: #333;
+  /* Cor mais escura para contraste */
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+
+/* Título do Perfil */
+.profile-title {
+  font-size: 2.2rem;
+  color: #333;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Informações do Perfil */
+.profile-info {
+  padding: 20px;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+/* Detalhes do perfil */
+.profile-details {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.profile-details p {
+  margin: 12px 0;
+}
+
+/* Estilo para imagem do perfil */
+.profile-image {
+  border-radius: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  height: 180px;
+  object-fit: cover;
+}
+
+/* Botões */
+.button-group {
+  display: flex;
+  gap: 15px;
+}
+
+.v-btn {
+  font-weight: 500;
+  border-radius: 25px;
+}
+
+.v-btn.primary {
+  background-color: #9DBAD5;
+  color: #fff;
+}
+
+.v-btn.secondary {
+  background-color: #f2f2f2;
+  color: #333;
+}
+
+.v-btn:hover {
+  opacity: 0.9;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  .profile-image {
+    width: 120px;
+    height: 120px;
+  }
+
+  .profile-title {
+    font-size: 1.8rem;
+  }
+}
+</style>
