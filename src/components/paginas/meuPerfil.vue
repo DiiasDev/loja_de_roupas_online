@@ -7,18 +7,19 @@
       <!-- Cartão de Perfil -->
       <v-card class="profile-card">
         <v-card-title class="profile-title">
-          Meu Perfil 
+          Meu Perfil
         </v-card-title>
 
         <!-- Informações do Perfil -->
         <v-card-text class="profile-info">
           <v-row>
-            <!-- Imagem do Perfil -->
+
             <v-col cols="12" md="4" class="d-flex justify-center">
-              <v-img class="profile-image"
-                src="https://www.cnnbrasil.com.br/wp-content/uploads/sites/12/2025/02/cristiano-ronaldo-al-nassr-contrato-e1739188302718.jpg?w=1200&h=1200&crop=1"
-                alt="Foto do Usuário"></v-img>
+              <v-avatar size="150" class="profile-avatar">
+                <v-img src="https://www.cnnbrasil.com.br/wp-content/uploads/sites/12/2025/02/cristiano-ronaldo-al-nassr-contrato-e1739188302718.jpg?w=1200&h=1200&crop=1" alt="Foto do Usuário"></v-img>
+              </v-avatar>
             </v-col>
+
 
             <!-- Detalhes do Perfil -->
             <v-col cols="12" md="8">
