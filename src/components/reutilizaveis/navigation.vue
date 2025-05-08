@@ -8,8 +8,8 @@
     </v-list>
     <v-divider />
 
-    <v-list density="compact" nav>
-      <v-list-item @click="inicio" prepend-icon="mdi-home" title="Início" value="home" />
+    <v-list density="compact">
+      <v-list-item @click="inicio" class="homeIcon" prepend-icon="mdi-home" title="Início" value="home" />
       <v-list-item prepend-icon="mdi-package-variant" title="Produtos" value="produtos" />
       <v-list-item @click="redireciona" prepend-icon="mdi-account" title="Meu Perfil" value="profile" />
       <v-list-item @click="openCarrinho" prepend-icon="mdi-cart" title="Carrinho" value="cart" />
@@ -106,44 +106,54 @@ export default {
 
 <style scoped>
 .v-navigation-drawer {
-  background-color: #fafafa;
+  background-color: var(--nav-bg) !important;
+  border-right: 1px solid var(--nav-border) !important;
+  box-shadow: var(--nav-shadow) !important;
 }
 
-.v-card-title {
-  font-family: 'Roboto', sans-serif;
-  font-weight: bold;
-  color: white;
+.v-list-item {
+  color: var(--nav-text) !important;
+  transition: all 0.3s ease !important;
 }
 
-.v-card-subtitle {
-  font-style: italic;
-  color: #757575;
+.v-list-item:hover {
+  background-color: var(--nav-hover) !important;
 }
 
-.v-btn {
-  font-weight: 600;
+.v-list-item.active {
+  background-color: var(--nav-active) !important;
+  color: white !important;
 }
 
-.v-btn:hover {
-  background-color: #1976D2 !important;
+.v-list-item__prepend > .v-icon {
+  color: var(--nav-icon) !important;
 }
 
-.v-row {
-  margin-top: 30px;
+.v-divider {
+  border-color: var(--nav-border) !important;
 }
 
-.v-col {
-  margin-bottom: 20px;
+.v-list-item__title {
+  font-weight: 500 !important;
+  font-size: 0.95rem !important;
 }
 
-.v-navigation-drawer .v-list-item {
-  font-weight: 500;
+.v-list-item__subtitle {
+  color: var(--text-secondary) !important;
+  font-size: 0.8rem !important;
 }
 
-.v-main {
-  background-color: #f4f4f4;
+/* Avatar container styling */
+.v-list-item:first-child {
+  padding: 1rem !important;
+  margin-bottom: 0.5rem !important;
 }
 
+.v-list-item:first-child .v-avatar {
+  border: 2px solid var(--primary) !important;
+}
+
+/* Mantendo outras propriedades importantes */
 .v-main {
   height: 0%;
   padding: 0px;
@@ -153,8 +163,14 @@ export default {
   padding: 0px;
 }
 
-.v-container{
+.v-container {
   padding: 0px;
   background-color: transparent !important;
 }
+
+/* Remover completamente ou comentar a classe homeIcon que não é mais necessária */
+/* .homeIcon{
+  margin-right: 1rem;
+  padding-right: 1rem;
+} */
 </style>

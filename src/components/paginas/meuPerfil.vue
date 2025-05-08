@@ -46,7 +46,7 @@
 
 <script>
 import { useAppStore } from '@/store/app.ts'
-import navgation from '../reutilizaveis/navgation.vue';
+import navgation from '../reutilizaveis/navigation.vue';
 
 export default {
   components: {

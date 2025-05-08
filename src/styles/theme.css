@@ -12,6 +12,27 @@
      --sidebar-text: #1A1A1A;
      --sidebar-hover: #E3F2FD; /* azul clarinho ao passar o mouse */
      --sidebar-active: #2962FF;
+
+    /* NOVAS VARIÁVEIS PARA MODAIS */
+    --modal-bg: rgba(255, 255, 255, 0.98);
+    --modal-header: #2962FF;
+    --modal-border: rgba(41, 98, 255, 0.2);
+    --modal-shadow: 0 4px 20px rgba(41, 98, 255, 0.15);/*  */
+
+    /* NOVAS VARIÁVEIS PARA CARDS */
+    --card-bg: #FFFFFF;
+    --card-border: rgba(41, 98, 255, 0.1);
+    --card-hover-shadow: 0 8px 16px rgba(41, 98, 255, 0.12);
+    --card-highlight: rgba(41, 98, 255, 0.05);
+
+    /* NOVAS VARIÁVEIS PARA NAVEGAÇÃO */
+    --nav-bg: rgba(255, 255, 255, 0.95);
+    --nav-hover: #E3F2FD;
+    --nav-active: #2962FF;
+    --nav-text: #1A1A1A;
+    --nav-icon: #2962FF;
+    --nav-border: rgba(0, 0, 0, 0.12);
+    --nav-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
 :root[data-theme="dark"] {
@@ -28,6 +49,27 @@
      --sidebar-text: #FFFFFF;
      --sidebar-hover: #2A2A2A;
      --sidebar-active: #82B1FF;
+
+    /* VARIÁVEIS PARA MODAIS - TEMA ESCURO */
+    --modal-bg: rgba(30, 30, 30, 0.98);
+    --modal-header: #82B1FF;
+    --modal-border: rgba(130, 177, 255, 0.2);
+    --modal-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+
+    /* VARIÁVEIS PARA CARDS - TEMA ESCURO */
+    --card-bg: #252525;
+    --card-border: rgba(130, 177, 255, 0.1);
+    --card-hover-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    --card-highlight: rgba(130, 177, 255, 0.05);
+
+    /* VARIÁVEIS PARA NAVEGAÇÃO - TEMA ESCURO */
+    --nav-bg: rgba(30, 30, 30, 0.95);
+    --nav-hover: rgba(130, 177, 255, 0.1);
+    --nav-active: #82B1FF;
+    --nav-text: #FFFFFF;
+    --nav-icon: #82B1FF;
+    --nav-border: rgba(255, 255, 255, 0.12);
+    --nav-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
 }
 
 .body {
@@ -41,14 +83,19 @@ html[data-theme='dark'] .body {
     color: var(--text-primary);
 }
 
-/* Exemplo de uso nas seções do seu site */
 .card {
-    background: var(--surface);
-    color: var(--text-primary);
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
     box-shadow: var(--card-shadow);
     border-radius: 8px;
     padding: 1rem;
-    transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: var(--card-hover-shadow);
+    transform: translateY(-2px);
+    background: var(--card-highlight);
 }
 
 a {
@@ -83,4 +130,18 @@ a:hover {
 .sidebar a.active {
     background-color: var(--sidebar-active);
     color: #ffffff;
+}
+
+/* Novos estilos para modais */
+.modal {
+    background: var(--modal-bg);
+    border: 1px solid var(--modal-border);
+    box-shadow: var(--modal-shadow);
+    border-radius: 12px;
+}
+
+.modal-header {
+    color: var(--modal-header);
+    border-bottom: 1px solid var(--modal-border);
+    padding: 1rem;
 }

@@ -11,12 +11,12 @@
 
             <v-row class="ml-6" v-if="!appStore.isPerfil" style="margin-top: 64px; padding: 0 16px;"> <!-- Ajuste o valor conforme necessário -->
                 <v-col v-for="(product, index) in products" :key="index" cols="12" sm="6" md="6" lg="3">
-                    <v-card class="elevation-10" :hover="true" style="border-radius: 12px;">
+                    <v-card class="custom-card elevation-0" :hover="true">
                         <v-img :src="product.image" height="200px" style="border-radius: 12px 12px 0 0;" />
                         <v-card-title class="text-h6">{{ product.name }}</v-card-title>
-                        <v-card-subtitle class="text-body-2" style="font-style: italic;">{{ product.description }}</v-card-subtitle>
+                        <v-card-subtitle class="text-body-2">{{ product.description }}</v-card-subtitle>
                         <v-card-actions>
-                            <v-btn color="primary" style="width: 100%; font-weight: bold;">
+                            <v-btn color="primary" class="custom-button">
                                 Adicionar ao Carrinho
                             </v-btn>
                         </v-card-actions>
@@ -31,7 +31,7 @@
 <script>
 import { useAppStore } from '../../store/app.ts'
 import bannerImage from '@/assets/novawear.png';
-import NavigationVue from '../reutilizaveis/navgation.vue'
+import NavigationVue from '../reutilizaveis/navigation.vue'
 // import CarrinhoDeCompras from '../modals/carrinhoDeCompras.vue'
 // import modalSuporte from '../modals/suporte.vue'
 
@@ -75,15 +75,47 @@ export default {
     background-color: #fafafa;
 }
 
-.v-card-title {
-    font-family: 'Roboto', sans-serif;
+.custom-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    box-shadow: var(--card-shadow);
+    border-radius: 12px;
+    padding: 1rem;
+    transition: all 0.3s ease;
+}
+
+.custom-card:hover {
+    box-shadow: var(--card-hover-shadow);
+    transform: translateY(-2px);
+    background: var(--card-highlight);
+}
+
+.custom-button {
+    width: 100%;
     font-weight: bold;
-    color: white;
+    color: var(--text-primary);
+    background: var(--primary);
+    transition: background-color 0.3s ease;
+}
+
+.custom-button:hover {
+    background-color: var(--secondary) !important;
+}
+
+.v-card-title {
+    color: var(--text-primary);
+    font-weight: bold;
 }
 
 .v-card-subtitle {
-    font-style: italic;
-    color: #757575;
+    color: var(--text-secondary);
+}
+
+.main-scroll {
+    background: var(--background);
+    min-height: 100vh;
+    overflow-y: auto;
+    padding-bottom: 50px;
 }
 
 .v-btn {
@@ -108,11 +140,5 @@ export default {
 
 .v-main {
     background-color: #f4f4f4;
-}
-
-.main-scroll {
-    min-height: 100vh;
-    overflow-y: auto;
-    padding-bottom: 50px;
 }
 </style>
