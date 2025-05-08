@@ -1,3 +1,86 @@
-:root{
-    --primary: #2c9af4
+:root {
+    --primary: #2962FF;
+    --secondary: #512DA8;
+    --background: linear-gradient(to right top, #032251, #004073, #006094, #0082b4, #06a5d1);
+    --surface: #FFFFFF;
+    --text-primary: #1A1A1A;
+    --text-secondary: #5C5C5C;
+    --card-shadow: 0px 4px 10px rgba(0, 0, 0, 0.06);
+
+     /* NOVAS VARIÁVEIS PARA A SIDEBAR */
+     --sidebar-bg: #FFFFFF;
+     --sidebar-text: #1A1A1A;
+     --sidebar-hover: #E3F2FD; /* azul clarinho ao passar o mouse */
+     --sidebar-active: #2962FF;
+}
+
+:root[data-theme="dark"] {
+    --primary: #82B1FF;
+    --secondary: #9575CD;
+    --background: linear-gradient(to right top, #320446, #2d054b, #260650, #1b0855, #070b5a);
+    --surface: #1E1E1E;
+    --text-primary: #FFFFFF;
+    --text-secondary: #B0B0B0;
+    --card-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+
+     /* VARIÁVEIS DA SIDEBAR - TEMA ESCURO */
+     --sidebar-bg: #1A1A1A;
+     --sidebar-text: #FFFFFF;
+     --sidebar-hover: #2A2A2A;
+     --sidebar-active: #82B1FF;
+}
+
+.body {
+    background: var(--background);
+    color: var(--text-primary);
+    transition: background 0.3s, color 0.3s;
+}
+
+html[data-theme='dark'] .body {
+    background: var(--background);
+    color: var(--text-primary);
+}
+
+/* Exemplo de uso nas seções do seu site */
+.card {
+    background: var(--surface);
+    color: var(--text-primary);
+    box-shadow: var(--card-shadow);
+    border-radius: 8px;
+    padding: 1rem;
+    transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+}
+
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--secondary);
+}
+
+.sidebar {
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    height: 100vh;
+    padding: 1rem;
+    transition: background 0.3s, color 0.3s;
+}
+
+.sidebar a {
+    color: var(--sidebar-text);
+    text-decoration: none;
+    display: block;
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    transition: background 0.3s;
+}
+
+.sidebar a:hover {
+    background-color: var(--sidebar-hover);
+}
+
+.sidebar a.active {
+    background-color: var(--sidebar-active);
+    color: #ffffff;
 }

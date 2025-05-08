@@ -14,11 +14,12 @@
 </template>
 
 <script>
+import "./styles/theme.css"
+
 import { useAppStore } from './store/app.ts'
 import LoginVue from './components/paginas/login.vue'
 import HomeVue from './components/paginas/home.vue'
 import MeuPerfil from './components/paginas/meuPerfil.vue'
-
 
 export default {
   name: 'App',
@@ -29,10 +30,18 @@ export default {
     MeuPerfil
   },
 
+  mounted() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    this.appStore.isLight = savedTheme === 'light';
+    this.appStore.isDark = savedTheme === 'dark';
+  },
+
   computed: {
     appStore() {
       return useAppStore();
     },
+    methods:{}
   }
 }
 </script>
@@ -53,8 +62,7 @@ export default {
   padding-bottom: 60px;
 }
 
-.body {
-  background-image: linear-gradient(to right top, #3fcdff, #36a4d6, #2d7cac, #225782, #143559);
+.v-container{
+  padding: 0;
 }
-
 </style>

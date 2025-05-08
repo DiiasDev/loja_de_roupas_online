@@ -1,6 +1,6 @@
 <template>
     <NavigationVue />
-    <v-main class="main-scroll">
+    <v-main class="main-scroll body">
         <v-container fluid>
             <v-row class="ml-3" v-if="!appStore.isPerfil" dense align="center" no-gutters>
                 <v-col class="d-flex justify-center">
@@ -10,7 +10,7 @@
             </v-row>
 
             <v-row class="ml-6" v-if="!appStore.isPerfil" style="margin-top: 64px; padding: 0 16px;"> <!-- Ajuste o valor conforme necessário -->
-                <v-col v-for="(product, index) in products" :key="index" cols="12" sm="6" md="6" lg="4">
+                <v-col v-for="(product, index) in products" :key="index" cols="12" sm="6" md="6" lg="3">
                     <v-card class="elevation-10" :hover="true" style="border-radius: 12px;">
                         <v-img :src="product.image" height="200px" style="border-radius: 12px 12px 0 0;" />
                         <v-card-title class="text-h6">{{ product.name }}</v-card-title>

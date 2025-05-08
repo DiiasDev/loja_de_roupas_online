@@ -1,5 +1,5 @@
 <template>
-    <v-row class="no-scroll">
+    <v-row  class="no-scroll">
         <v-col class="d-flex align-center justify-center" cols="12">
             <v-card rounded="lg" :width="display.xs ? '80%' : '30%'">
                 <v-card-title class="text-h5 text-center">
