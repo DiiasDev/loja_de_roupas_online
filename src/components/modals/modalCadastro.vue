@@ -2,12 +2,14 @@
     <v-row>
         <v-col>
             <v-dialog v-model="appStore.modalCadastro" max-width="600px">
-                <v-card rounded="lg">
-                    <v-icon class="mt-2 ml-2" @click="appStore.modalCadastro = false">mdi-close</v-icon>
-                    <v-card-title class="text-h5 text-center">
-                        Cadastro
-                    </v-card-title>
-                    <v-card-text>
+                <v-card class="modal" rounded="lg">
+                    <div class="modal-header">
+                        <v-icon class="close-icon" @click="appStore.modalCadastro = false">mdi-close</v-icon>
+                        <v-card-title class="text-h5 text-center">
+                            Cadastro
+                        </v-card-title>
+                    </div>
+                    <v-card-text class="modal-content">
                         <v-form>
                             <v-text-field label="Nome" v-model="user.name" required></v-text-field>
                             <v-text-field label="Telefone" type="text" v-model="user.phone" required></v-text-field>
@@ -40,7 +42,7 @@ export default {
                 password: '',
             },
             confirmPassword: '',
-            exibeMessage: '', 
+            exibeMessage: '',
             display: useDisplay(),
         }
     },
@@ -54,7 +56,7 @@ export default {
             // this.exibeMessage = '<span style="color: blue;">Processando cadastro...</span>';
 
             const userExists = this.appStore.user.find(e => e.email === this.user.email);
-            
+
             if (userExists) {
                 this.exibeMessage = `<span style="color: red;">Usuário já cadastrado!</span>`;
                 return;
@@ -95,3 +97,92 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.modal {
+    background: var(--modal-bg);
+    border: 1px solid var(--modal-border);
+    box-shadow: var(--modal-shadow);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.modal-header {
+    position: relative;
+    background: var(--modal-bg);
+    border-bottom: 1px solid var(--modal-border);
+    padding: 1rem;
+}
+
+.close-icon {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
+}
+
+.close-icon:hover {
+    color: var(--primary);
+}
+
+.modal-content {
+    padding: 1.5rem;
+}
+
+:deep(.v-text-field) {
+    margin-bottom: 1rem;
+    background: transparent;
+}
+
+:deep(.v-field) {
+    border-radius: 8px;
+    background: var(--card-bg) !important;
+    border: 1px solid var(--modal-border) !important;
+}
+
+:deep(.v-field:hover) {
+    border-color: var(--primary) !important;
+}
+
+:deep(.v-field__input) {
+    color: var(--text-primary) !important;
+    padding: 8px 12px !important;
+}
+
+:deep(.v-label) {
+    color: var(--text-secondary) !important;
+    opacity: 1;
+}
+
+:deep(.v-field__outline) {
+    display: none;
+}
+
+:deep(.v-field--focused) {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 1px var(--primary) !important;
+}
+
+:deep(.v-field--focused .v-label) {
+    color: var(--primary) !important;
+}
+
+:deep(.v-btn) {
+    width: 100%;
+    margin-top: 1.5rem;
+    background: var(--primary) !important;
+    color: white !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+:deep(.v-btn:hover) {
+    transform: translateY(-2px);
+    box-shadow: var(--card-hover-shadow);
+}
+
+.text-center {
+    color: var(--text-primary);
+}
+</style>

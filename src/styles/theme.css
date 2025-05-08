@@ -76,6 +76,7 @@
     background: var(--background);
     color: var(--text-primary);
     transition: background 0.3s, color 0.3s;
+    overflow-x: hidden !important;
 }
 
 html[data-theme='dark'] .body {
@@ -130,18 +131,4 @@ a:hover {
 .sidebar a.active {
     background-color: var(--sidebar-active);
     color: #ffffff;
-}
-
-/* Novos estilos para modais */
-.modal {
-    background: var(--modal-bg);
-    border: 1px solid var(--modal-border);
-    box-shadow: var(--modal-shadow);
-    border-radius: 12px;
-}
-
-.modal-header {
-    color: var(--modal-header);
-    border-bottom: 1px solid var(--modal-border);
-    padding: 1rem;
 }
