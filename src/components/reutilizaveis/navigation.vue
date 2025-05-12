@@ -13,13 +13,16 @@
       <v-list-item prepend-icon="mdi-package-variant" title="Produtos" value="produtos" />
       <v-list-item @click="redireciona" prepend-icon="mdi-account" title="Meu Perfil" value="profile" />
       <v-list-item @click="openCarrinho" prepend-icon="mdi-cart" title="Carrinho" value="cart" />
-      <v-list-item prepend-icon="mdi-information" title="Sobre a Loja" value="about" />
+      <v-list-item @click="redirecionaAbout" prepend-icon="mdi-information" title="Sobre a Loja" value="about" />
       <v-list-item @click="openModalSuporte" prepend-icon="mdi-face-agent" title="Suporte" value="support" />
       <v-list-item @click="changeTheme" :prepend-icon="currentIcon" title="Mudar Tema" value="Mudar Tema" />
 
     </v-list>
   </v-navigation-drawer>
   <v-container>
+    <template>
+      <SobreLoja v-if="appStore.isAbout == true" />
+    </template>
     <CarrinhoDeCompras />
     <modalSuporte />
   </v-container>
@@ -30,12 +33,14 @@
 import { useAppStore } from '../../store/app.ts'
 import CarrinhoDeCompras from '../modals/carrinhoDeCompras.vue'
 import modalSuporte from '../modals/suporte.vue'
+import SobreLoja from '../../pages/SobreLoja.vue'
 
 export default {
   name: 'NavigationVue',
   components: {
     CarrinhoDeCompras,
     modalSuporte,
+    SobreLoja,
   },
   data() {
     return {
@@ -72,9 +77,16 @@ export default {
     },
     inicio() {
       this.appStore.isPerfil = false;
+      this.appStore.isHome = true;
+      this.appStore.isAbout = false
     },
     redireciona() {
       this.appStore.isPerfil = true;
+    },
+    redirecionaAbout() {
+      this.appStore.isAbout = true;
+      this.appStore.isHome = false;
+      this.appStore.isPerfil = false;
     },
     changeTheme() {
       const htmlElement = document.documentElement;
@@ -125,7 +137,7 @@ export default {
   color: white !important;
 }
 
-.v-list-item__prepend > .v-icon {
+.v-list-item__prepend>.v-icon {
   color: var(--nav-icon) !important;
 }
 

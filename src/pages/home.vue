@@ -29,9 +29,9 @@
 </template>
 
 <script>
-import { useAppStore } from '../../store/app.ts'
+import { useAppStore } from '../store/app.ts'
 import bannerImage from '@/assets/novawear.png';
-import NavigationVue from '../reutilizaveis/navigation.vue'
+import NavigationVue from '../components/reutilizaveis/navigation.vue'
 // import CarrinhoDeCompras from '../modals/carrinhoDeCompras.vue'
 // import modalSuporte from '../modals/suporte.vue'
 

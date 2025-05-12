@@ -15,8 +15,10 @@ export const useAppStore = defineStore("app", {
     modalCarrinho: false,
     modalSuporte: false,
     isPerfil: false,
+    isAbout: false,
     isDark: false,
-    isLight: true
+    isLight: true,
+    isHome: true,
   }),
   getters: {},
   actions: {

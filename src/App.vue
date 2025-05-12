@@ -1,15 +1,16 @@
 <template>
   <v-app class="body">
-    <LoginVue v-if="appStore.isLoged == false" />
+    <NavigationVue v-if="!appStore.isLoged == false" />
+    <LoginVue class="overflow" v-if="appStore.isLoged == false" />
 
     <template v-else>
       <MeuPerfil v-if="appStore.isPerfil" />
-      <HomeVue v-else />
+      <HomeVue v-if="appStore.isHome" />
+      <SobreLoja v-if="appStore.isAbout" />
     </template>
 
-    <footer v-if="appStore.isLoged == false" class="d-flex justify-center footer">
-      <p>&copy; DiiasDev</p>
-    </footer>
+    <Footer />
+
   </v-app>
 </template>
 
@@ -17,9 +18,12 @@
 import "./styles/theme.css"
 
 import { useAppStore } from './store/app.ts'
-import LoginVue from './components/paginas/login.vue'
-import HomeVue from './components/paginas/home.vue'
-import MeuPerfil from './components/paginas/meuPerfil.vue'
+import LoginVue from './pages/login.vue'
+import HomeVue from './pages/home.vue'
+import MeuPerfil from './pages/meuPerfil.vue'
+import SobreLoja from './pages/SobreLoja.vue'
+import Footer from './components/reutilizaveis/Footer.vue'
+import NavigationVue from './components/reutilizaveis/navigation.vue'
 
 export default {
   name: 'App',
@@ -27,7 +31,10 @@ export default {
   components: {
     LoginVue,
     HomeVue,
-    MeuPerfil
+    MeuPerfil,
+    SobreLoja,
+    Footer,
+    NavigationVue
   },
 
   mounted() {
@@ -41,28 +48,22 @@ export default {
     appStore() {
       return useAppStore();
     },
-    methods:{}
+    methods: {
+    }
   }
 }
 </script>
 
 <style>
-.footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: #1976D2;
-  color: white;
-  text-align: center;
-  padding: 10px 0;
-}
-
 .v-main {
   padding-bottom: 60px;
 }
 
-.v-container{
+.v-container {
   padding: 0;
+}
+
+html .overflow{
+  overflow-y: hidden !important;
 }
 </style>

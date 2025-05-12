@@ -1,5 +1,5 @@
 <template>
-    <v-row  class="no-scroll">
+    <v-row class="no-scroll">
         <v-col class="d-flex align-center justify-center" cols="12">
             <v-card rounded="lg" :width="display.xs ? '80%' : '30%'">
                 <v-card-title class="text-h5 text-center">
@@ -23,9 +23,9 @@
 </template>
 
 <script>
-import { useAppStore } from '../../store/app.ts'
+import { useAppStore } from '../store/app.ts'
 import { useDisplay } from 'vuetify'
-import modalCadastro from '../modals/modalCadastro.vue'
+import modalCadastro from '../components/modals/modalCadastro.vue'
 export default {
     name: 'LoginVue',
     components: {
@@ -63,21 +63,29 @@ export default {
                     return;
                 }
                 this.exibeMessage = `<v-card-text style="color: blue;">Logando...</v-card-text>`;
-                    setTimeout(() => {
-                        this.appStore.isLoged = true;
-                    },1500)
-            } catch (e) {
-                console.error("Erro ao realizar login: ", e);
-            }
+                setTimeout(() => {
+                    this.appStore.isLoged = true;
+                }, 1500)
+                useAppStore.isHome = true
+            } catch(e) {
+            console.error("Erro ao realizar login: ", e);
         }
     }
+}
 }
 </script>
 
 <style scoped>
 .no-scroll {
-    overflow: auto;
     height: 100vh;
     width: 100vw;
+}
+
+.v-application {
+    overflow-y: hidden !important;
+}
+
+html {
+    overflow-y: hidden !important;
 }
 </style>

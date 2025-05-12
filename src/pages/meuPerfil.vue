@@ -46,7 +46,7 @@
 
 <script>
 import { useAppStore } from '@/store/app.ts'
-import navgation from '../reutilizaveis/navigation.vue';
+import navgation from '../components/reutilizaveis/navigation.vue';
 
 export default {
   components: {
@@ -74,15 +74,15 @@ export default {
 /* Estilo geral da página */
 .profile-row {
   min-height: 100vh;
-  background-color: #f7f7f7;
+  background-color: var(--background);
   /* Cor de fundo clara */
   padding: 20px;
 }
 
 .profile-card {
-  background-color: #fff;
+  background-color: var(--card-bg);
   /* Fundo branco, mais clean e fácil de ler */
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--card-shadow);
   /* Sombra mais forte para dar profundidade */
   border-radius: 15px;
   /* Bordas arredondadas */
@@ -97,15 +97,16 @@ export default {
 .profile-card:hover {
   transform: translateY(-5px);
   /* Levanta o card ao passar o mouse */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--card-hover-shadow);
   /* Aumenta a sombra ao passar o mouse */
+  background-color: var(--card-highlight);
 }
 
 /* Alteração do título do card para uma cor mais destacada */
 .profile-title {
   font-size: 2.4rem;
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);
   /* Cor mais escura para contraste */
   text-align: center;
   margin-bottom: 20px;
@@ -115,7 +116,7 @@ export default {
 /* Título do Perfil */
 .profile-title {
   font-size: 2.2rem;
-  color: #333;
+  color: var(--text-primary);
   font-weight: 600;
   text-align: center;
   margin-bottom: 20px;
@@ -125,7 +126,7 @@ export default {
 .profile-info {
   padding: 20px;
   font-size: 1.1rem;
-  color: #555;
+  color: var(--text-secondary);
 }
 
 /* Detalhes do perfil */
@@ -159,13 +160,13 @@ export default {
 }
 
 .v-btn.primary {
-  background-color: #9DBAD5;
-  color: #fff;
+  background-color: var(--primary);
+  color: var(--text-text);
 }
 
 .v-btn.secondary {
-  background-color: #f2f2f2;
-  color: #333;
+  background-color: var(--surface);
+  color: var(--text-primary);
 }
 
 .v-btn:hover {
