@@ -7,6 +7,7 @@
       <MeuPerfil v-if="appStore.isPerfil" />
       <HomeVue v-if="appStore.isHome" />
       <SobreLoja v-if="appStore.isAbout" />
+      <productsPage v-if="appStore.isProduct" />
     </template>
 
     <Footer />
@@ -24,6 +25,7 @@ import MeuPerfil from './pages/meuPerfil.vue'
 import SobreLoja from './pages/SobreLoja.vue'
 import Footer from './components/reutilizaveis/Footer.vue'
 import NavigationVue from './components/reutilizaveis/navigation.vue'
+import productsPage from './pages/produtos.vue'
 
 export default {
   name: 'App',
@@ -34,7 +36,8 @@ export default {
     MeuPerfil,
     SobreLoja,
     Footer,
-    NavigationVue
+    NavigationVue,
+    productsPage
   },
 
   mounted() {
@@ -63,7 +66,7 @@ export default {
   padding: 0;
 }
 
-html .overflow{
+html .overflow {
   overflow-y: hidden !important;
 }
 </style>

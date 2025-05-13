@@ -19,6 +19,7 @@ export const useAppStore = defineStore("app", {
     isDark: false,
     isLight: true,
     isHome: true,
+    isProduct: false,
   }),
   getters: {},
   actions: {

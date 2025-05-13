@@ -10,7 +10,7 @@
 
     <v-list density="compact">
       <v-list-item @click="inicio" class="homeIcon" prepend-icon="mdi-home" title="Início" value="home" />
-      <v-list-item prepend-icon="mdi-package-variant" title="Produtos" value="produtos" />
+      <v-list-item @click="redirecionaProduct" prepend-icon="mdi-package-variant" title="Produtos" value="produtos" />
       <v-list-item @click="redireciona" prepend-icon="mdi-account" title="Meu Perfil" value="profile" />
       <v-list-item @click="openCarrinho" prepend-icon="mdi-cart" title="Carrinho" value="cart" />
       <v-list-item @click="redirecionaAbout" prepend-icon="mdi-information" title="Sobre a Loja" value="about" />
@@ -76,12 +76,19 @@ export default {
       this.appStore.modalSuporte = true
     },
     inicio() {
-      this.appStore.isPerfil = false;
       this.appStore.isHome = true;
-      this.appStore.isAbout = false
+      this.appStore.isPerfil = false;
+      this.appStore.isAbout = false;
+      this.appStore.isProduct = false
     },
     redireciona() {
       this.appStore.isPerfil = true;
+    },
+    redirecionaProduct() {
+      this.appStore.isProduct = true
+      this.appStore.isAbout = false;
+      this.appStore.isHome = false;
+      this.appStore.isPerfil = false;
     },
     redirecionaAbout() {
       this.appStore.isAbout = true;
