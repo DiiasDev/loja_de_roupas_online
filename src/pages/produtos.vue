@@ -47,7 +47,7 @@
                 </div>
             </v-col>
         </v-row>
-        <modalCadastroProduto v-if="Appstore.modalCadastroProduct" />
+        <modalCadastroProduto/>
     </v-container>
 </template>
 
@@ -70,7 +70,6 @@ export default {
                     categoria: 'Camisa',
                     descricao: 'Camisa 100% algodão, confortável e estilosa.',
                     preco: '89,90',
-                    imagem: 'https://via.placeholder.com/300x300?text=Camisa+Azul'
                 },
                 {
                     id: 2,
@@ -78,7 +77,6 @@ export default {
                     categoria: 'Calça',
                     descricao: 'Jeans escuro com corte moderno e confortável.',
                     preco: '129,90',
-                    imagem: 'https://via.placeholder.com/300x300?text=Calça+Jeans'
                 },
             ]
         };

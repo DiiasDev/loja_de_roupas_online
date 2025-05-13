@@ -45,13 +45,13 @@ export default {
     data() {
         return {
             products: [
-                { name: 'Camiseta Básica', description: 'Camiseta confortável para o dia a dia.', image: '@/assets/camiseta.jpg' },
-                { name: 'Jaqueta de Couro', description: 'Estilo e elegância para qualquer ocasião.', image: '@/assets/jaqueta.jpg' },
-                { name: 'Calça Jeans', description: 'A calça perfeita para qualquer look.', image: '@/assets/calca.jpg' },
-                { name: 'Camiseta Básica', description: 'Camiseta confortável para o dia a dia.', image: '@/assets/camiseta.jpg' },
-                { name: 'Camiseta Básica', description: 'Camiseta confortável para o dia a dia.', image: '@/assets/camiseta.jpg' },
-                { name: 'Camiseta Básica', description: 'Camiseta confortável para o dia a dia.', image: '@/assets/camiseta.jpg' },
-                { name: 'Camiseta Básica', description: 'Camiseta confortável para o dia a dia.', image: '@/assets/camiseta.jpg' },
+                { name: 'Camiseta Básica', description: 'Camiseta confortável para o dia a dia.',  },
+                { name: 'Jaqueta de Couro', description: 'Estilo e elegância para qualquer ocasião.', },
+                { name: 'Calça Jeans', description: 'A calça perfeita para qualquer look.',},
+                { name: 'Camiseta Básica', description: 'Camiseta confortável para o dia a dia.',  },
+                { name: 'Camiseta Básica', description: 'Camiseta confortável para o dia a dia.',  },
+                { name: 'Camiseta Básica', description: 'Camiseta confortável para o dia a dia.',  },
+                { name: 'Camiseta Básica', description: 'Camiseta confortável para o dia a dia.',  },
             ],
             bannerStyle: {
                 backgroundImage: `url(${bannerImage})`,

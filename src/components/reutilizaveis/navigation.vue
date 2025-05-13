@@ -83,6 +83,7 @@ export default {
     },
     redireciona() {
       this.appStore.isPerfil = true;
+      this.appStore.isProduct = false;
     },
     redirecionaProduct() {
       this.appStore.isProduct = true
@@ -94,6 +95,7 @@ export default {
       this.appStore.isAbout = true;
       this.appStore.isHome = false;
       this.appStore.isPerfil = false;
+      this.appStore.isProduct = false;
     },
     changeTheme() {
       const htmlElement = document.documentElement;
