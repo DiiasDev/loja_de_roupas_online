@@ -14,16 +14,13 @@
             </v-col>
         </v-row>
 
-        <!-- CATEGORIAS -->
         <v-row class="mb-4" justify="center">
-            <v-chip v-for="categoria in categorias" :key="categoria" class="ma-2" text-color="white"
-                outlined @click="selecionarCategoria(categoria)"
-                :class="{ 'active-chip': categoria === categoriaSelecionada }">
+            <v-chip v-for="categoria in categorias" :key="categoria" class="ma-2" text-color="white" outlined
+                @click="selecionarCategoria(categoria)" :class="{ 'active-chip': categoria === categoriaSelecionada }">
                 {{ categoria }}
             </v-chip>
         </v-row>
 
-        <!-- LISTAGEM DE PRODUTOS -->
         <v-row>
             <v-col v-for="produto in produtosFiltrados" :key="produto.id" cols="12" sm="6" md="4" lg="3">
                 <div class="card animate__animated animate__fadeInUp">
@@ -50,12 +47,18 @@
                 </div>
             </v-col>
         </v-row>
+        <modalCadastroProduto v-if="Appstore.modalCadastroProduct" />
     </v-container>
 </template>
 
 <script>
+import { useAppStore } from '../store/app.ts';
+import modalCadastroProduto from '../components/modals/cadastroProduto.vue'
 export default {
     name: 'productsPage',
+    components: {
+        modalCadastroProduto
+    },
     data() {
         return {
             categorias: ['Todos', 'Camisa', 'Calça', 'Bermuda', 'Vestido', 'Acessórios'],
@@ -77,7 +80,6 @@ export default {
                     preco: '129,90',
                     imagem: 'https://via.placeholder.com/300x300?text=Calça+Jeans'
                 },
-                // ... mais produtos
             ]
         };
     },
@@ -85,6 +87,9 @@ export default {
         produtosFiltrados() {
             if (this.categoriaSelecionada === 'Todos') return this.produtos;
             return this.produtos.filter(p => p.categoria === this.categoriaSelecionada);
+        },
+        Appstore() {
+            return useAppStore()
         }
     },
     methods: {
@@ -92,11 +97,9 @@ export default {
             this.categoriaSelecionada = cat;
         },
         criarProduto() {
-            // Lógica para abrir modal ou redirecionar
-            alert('Função de criar produto');
+            this.Appstore.modalCadastroProduct = true
         },
         editarProduto(produto) {
-            // Lógica de edição
             alert(`Editar produto: ${produto.nome}`);
         },
         excluirProduto(id) {
@@ -118,12 +121,12 @@ export default {
 }
 
 .card {
-    
+
     transition: all 0.3s ease-in-out;
     cursor: pointer;
 }
 
 .body {
-  margin-left: 80px; /* ou o valor correspondente à largura da sua sidebar */
+    margin-left: 80px;
 }
 </style>
