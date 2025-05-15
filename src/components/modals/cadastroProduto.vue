@@ -29,17 +29,19 @@
                                 ❌ {{ erroValidacao }}
                             </v-alert>
 
-                            <v-text-field v-model="produto.id" label="🆔 ID do Produto" type="number"
+                            <v-text-field v-model="Appstore.idProduct" label="🆔 ID do Produto" type="number"
                                 required></v-text-field>
-                            <v-text-field v-model="produto.nome" label="📦 Nome do Produto" required></v-text-field>
-                            <v-text-field v-model="produto.categoria" label="🗂️ Categoria" required></v-text-field>
-                            <v-textarea v-model="produto.descricao" label="📝 Descrição" required></v-textarea>
-                            <v-text-field v-model="produto.preco" label="💰 Preço" prefix="R$" type="text"
+                            <v-text-field v-model="Appstore.productName" label="📦 Nome do Produto"
                                 required></v-text-field>
-                            <v-text-field v-model="produto.imagem" label="🖼️ URL da Imagem" required></v-text-field>
+                            <v-select v-model="Appstore.categoriaProduct" chips label="Select"
+                                :items=Appstore.categories multiple></v-select>
+                            <v-textarea v-model="Appstore.descricaoProduct" label="📝 Descrição" required></v-textarea>
+                            <v-text-field v-model="Appstore.precoProduct" label="💰 Preço" prefix="R$" type="text"
+                                required></v-text-field> <v-text-field v-model="Appstore.urlImageProduct"
+                                label="🖼️ URL da Imagem" required></v-text-field>
 
-                            <v-img :src="produto.imagem" max-height="200" contain class="mt-4"
-                                v-if="produto.imagem"></v-img>
+                            <v-img :src="Appstore.urlImageProduct" max-height="200" contain class="mt-4"
+                                v-if="Appstore.urlImageProduct"></v-img>
                         </v-card-text>
 
                         <!-- Ações -->
@@ -67,14 +69,6 @@ export default {
     name: 'modalCadastroProduto',
     data() {
         return {
-            produto: {
-                id: null,
-                nome: '',
-                categoria: '',
-                descricao: '',
-                preco: '',
-                imagem: ''
-            },
             snackbar: false,
             erroValidacao: null
         }
@@ -83,25 +77,38 @@ export default {
         Appstore() {
             return useAppStore()
         }
-    },
-    methods: {
+    }, methods: {
         validarProduto() {
-            const { id, nome, categoria, descricao, preco, imagem } = this.produto
+            const store = this.Appstore
+            const id = store.idProduct
+            const nome = store.productName
+            const categoria = store.categoriaProduct
+            const descricao = store.descricaoProduct
+            const preco = store.precoProduct
+            const imagem = store.urlImageProduct
 
             if (!id || isNaN(Number(id))) {
                 return 'O campo 🆔 ID deve ser um número válido.'
             }
-            if (!nome.trim()) return 'O campo 📦 Nome é obrigatório.'
-            if (!categoria.trim()) return 'O campo 🗂️ Categoria é obrigatório.'
-            if (!descricao.trim()) return 'O campo 📝 Descrição é obrigatório.'
-            if (!preco.trim() || isNaN(Number(preco.replace(/[^0-9.,]/g, '').replace(',', '.')))) {
+            if (!nome || !nome.trim()) {
+                return 'O campo 📦 Nome é obrigatório.'
+            }
+            if (!Array.isArray(categoria) || categoria.length === 0) {
+                return 'O campo 🗂️ Categoria é obrigatório.'
+            }
+            if (!descricao || !descricao.trim()) {
+                return 'O campo 📝 Descrição é obrigatório.'
+            }
+            const precoNumerico = preco ? Number(preco.replace(/[^0-9.,]/g, '').replace(',', '.')) : NaN
+            if (!preco || isNaN(precoNumerico)) {
                 return 'O campo 💰 Preço deve conter um valor numérico válido.'
             }
-            if (!imagem.trim()) return 'O campo 🖼️ URL da Imagem é obrigatório.'
+            if (!imagem || !imagem.trim()) {
+                return 'O campo 🖼️ URL da Imagem é obrigatório.'
+            }
 
             return null // Sem erros
         },
-
         submitForm() {
             const erro = this.validarProduto()
 
@@ -110,27 +117,25 @@ export default {
                 return
             }
 
-            // Sem erro: prossegue
             this.erroValidacao = null
-            console.log('✅ Produto cadastrado:', this.produto)
 
+            this.Appstore.addProduct()
+
+            console.log('✅ Produto cadastrado!')
             this.snackbar = true
 
             setTimeout(() => {
-                this.Appstore.modalCadastroProduto = false
+                this.Appstore.modalCadastroProduct = false
                 this.resetForm()
             }, 1000)
-        },
-
-        resetForm() {
-            this.produto = {
-                id: null,
-                nome: '',
-                categoria: '',
-                descricao: '',
-                preco: '',
-                imagem: ''
-            }
+        }, resetForm() {
+            const store = this.Appstore
+            store.idProduct = 1
+            store.productName = ''
+            store.categoriaProduct = [] // Changed from '' to [] since it's an array
+            store.descricaoProduct = ''
+            store.precoProduct = ''
+            store.urlImageProduct = ''
         }
     }
 }
