@@ -21,11 +21,18 @@ export const useAppStore = defineStore("app", {
     isLight: true,
     isHome: true,
     isProduct: false,
-    productsSaved: [],
-    categories: ['Todos','Camisa','Calça','Bermuda','Vestido', 'Jaquetas/Moletons'],
-    idProduct: 1,
+    productsSaved: (() => {
+      try {
+        const storedProducts = JSON.parse(localStorage.getItem('Produtos'));
+        return Array.isArray(storedProducts) ? storedProducts : [];
+      } catch {
+        return [];
+      }
+    })(),
+    categories: ['Todos', 'Camisa', 'Calça', 'Bermuda', 'Vestido', 'Jaquetas/Moletons'],
+    idProduct: Number(localStorage.getItem('UltimoID')) || 1,
     productName: '',
-    categoriaProduct: [], // Changed from string to array
+    categoriaProduct: [],
     descricaoProduct: '',
     precoProduct: '',
     urlImageProduct: ''
@@ -47,45 +54,62 @@ export const useAppStore = defineStore("app", {
     },
 
     addProduct() {
-      if (!this.idProduct ||
+      if (
+        !this.idProduct ||
         !this.productName.trim() ||
-        !Array.isArray(this.categoriaProduct) || this.categoriaProduct.length === 0 || // Check array instead of using trim
+        !Array.isArray(this.categoriaProduct) || this.categoriaProduct.length === 0 ||
         !this.descricaoProduct.trim() ||
         !this.precoProduct.trim() ||
-        !this.urlImageProduct.trim()) {
-
+        !this.urlImageProduct.trim()
+      ) {
         console.log('Erro: Todos os campos devem ser preenchidos');
         return false;
       }
 
       try {
         const product = {
-          idProduct: this.idProduct += 1,
+          idProduct: this.idProduct,
           productName: this.productName,
           categoriaProduct: this.categoriaProduct,
           descricaoProduct: this.descricaoProduct,
           precoProduct: this.precoProduct,
           urlImageProduct: this.urlImageProduct
-        }
-
+        };
         this.productsSaved.push(product);
+        this.idProduct++;
+        localStorage.setItem('UltimoID', this.idProduct);
         localStorage.setItem('Produtos', JSON.stringify(this.productsSaved));
-        console.log('Produto salvo:', JSON.parse(localStorage.getItem('Produtos')));
         return true;
       } catch (error) {
-        console.log('Falha ao salvar produto', error)
+        console.log('Falha ao salvar produto', error);
+        return false;
+      }
+    },
+    loadProductsFromStorage() {
+      try {
+        const storedProducts = JSON.parse(localStorage.getItem('Produtos'));
+        if (Array.isArray(storedProducts)) {
+          this.productsSaved = storedProducts;
+
+          if (storedProducts.length > 0) {
+            const maxId = Math.max(...storedProducts.map(p => p.idProduct || 0));
+            this.idProduct = maxId + 1;
+          }
+        }
+      } catch (error) {
+        console.log('Erro ao carregar produtos do localStorage', error);
       }
     },
 
-    showProduct(){
-      try{
-        if(this.product){
-           JSON.parse(localStorage.getItem('Produtos'))
-           console.log('PRODUTOS:', JSON.parse(localStorage.getItem('Produtos')))
+    showProduct() {
+      try {
+        if (this.product) {
+          JSON.parse(localStorage.getItem('Produtos'))
+          console.log('PRODUTOS:', JSON.parse(localStorage.getItem('Produtos')))
         }
-      } catch(error){
+      } catch (error) {
         console.log('Erro ao mostrar produto', error)
       }
-    } 
+    }
   },
 });

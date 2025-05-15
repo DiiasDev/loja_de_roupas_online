@@ -74,6 +74,9 @@ export default {
             categoriaSelecionada: 'Todos',
         };
     },
+    mounted() {
+        this.Appstore.loadProductsFromStorage();
+    },
     computed: {
         produtosFiltrados() {
             if (this.categoriaSelecionada === 'Todos') return this.produtos;
@@ -96,7 +99,7 @@ export default {
         excluirProduto(id) {
             if (confirm('Tem certeza que deseja excluir este produto?')) {
                 this.Appstore.productsSaved = this.Appstore.productsSaved.filter(produto => produto.idProduct !== id);
-                
+
                 localStorage.setItem('Produtos', JSON.stringify(this.Appstore.productsSaved));
             }
         },
