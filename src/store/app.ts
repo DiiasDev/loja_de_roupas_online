@@ -29,8 +29,19 @@ export const useAppStore = defineStore("app", {
         return [];
       }
     })(),
+    idProduct: (() => {
+      try {
+        const storedProducts = JSON.parse(localStorage.getItem('Produtos')) || [];
+        if (Array.isArray(storedProducts) && storedProducts.length > 0) {
+          const maxId = Math.max(...storedProducts.map(p => Number(p.idProduct) || 0));
+          return maxId + 1;
+        }
+        return 1;
+      } catch {
+        return 1;
+      }
+    })(),
     categories: ['Todos', 'Camisa', 'Calça', 'Bermuda', 'Vestido', 'Jaquetas/Moletons'],
-    idProduct: Number(localStorage.getItem('UltimoID')) || 1,
     productName: '',
     categoriaProduct: [],
     descricaoProduct: '',
@@ -55,7 +66,6 @@ export const useAppStore = defineStore("app", {
 
     addProduct() {
       if (
-        !this.idProduct ||
         !this.productName.trim() ||
         !Array.isArray(this.categoriaProduct) || this.categoriaProduct.length === 0 ||
         !this.descricaoProduct.trim() ||
@@ -77,8 +87,8 @@ export const useAppStore = defineStore("app", {
         };
         this.productsSaved.push(product);
         this.idProduct++;
-        localStorage.setItem('UltimoID', this.idProduct);
         localStorage.setItem('Produtos', JSON.stringify(this.productsSaved));
+        console.log(`Produto cadastrado com ID: ${product.idProduct}`);
         return true;
       } catch (error) {
         console.log('Falha ao salvar produto', error);
@@ -92,9 +102,13 @@ export const useAppStore = defineStore("app", {
           this.productsSaved = storedProducts;
 
           if (storedProducts.length > 0) {
-            const maxId = Math.max(...storedProducts.map(p => p.idProduct || 0));
+            const maxId = Math.max(...storedProducts.map(p => Number(p.idProduct) || 0));
             this.idProduct = maxId + 1;
+          } else {
+            this.idProduct = 1;
           }
+
+          console.log(`Produtos carregados. Próximo ID: ${this.idProduct}`);
         }
       } catch (error) {
         console.log('Erro ao carregar produtos do localStorage', error);

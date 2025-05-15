@@ -29,8 +29,6 @@
                                 ❌ {{ erroValidacao }}
                             </v-alert>
 
-                            <v-text-field v-model="Appstore.idProduct" label="🆔 ID do Produto" type="number"
-                                required></v-text-field>
                             <v-text-field v-model="Appstore.productName" label="📦 Nome do Produto"
                                 required></v-text-field>
                             <v-select v-model="Appstore.categoriaProduct" chips label="Select"
@@ -130,7 +128,6 @@ export default {
             }, 1000)
         }, resetForm() {
             const store = this.Appstore
-            store.idProduct = 1
             store.productName = ''
             store.categoriaProduct = [] // Changed from '' to [] since it's an array
             store.descricaoProduct = ''
