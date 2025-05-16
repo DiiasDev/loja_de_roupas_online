@@ -17,7 +17,7 @@
                         <v-tabs 
                             v-model="categoriaSelecionada"
                             background-color="transparent"
-                            slider-color="#9c64e2"
+                            slider-color="var(--secondary)"
                             centered
                             class="custom-tabs"
                         >
@@ -51,8 +51,9 @@
                         <div class="category-label">Categorias:</div>
                         <div class="category-chips">
                             <v-chip small class="mr-1 mb-1 category-chip"
-                                :color="getCategoryColor(produto.categoriaProduct)" text-color="white">
-                                {{ produto.categoriaProduct }}
+                                :color="getCategoryColor(Array.isArray(produto.categoriaProduct) ? produto.categoriaProduct[0] : produto.categoriaProduct)" 
+                                text-color="white">
+                                {{ formatCategoryDisplay(produto.categoriaProduct) }}
                             </v-chip>
                         </div>
                     </div>
@@ -149,6 +150,12 @@ export default {
                 'Acessórios': '#795548'
             };
             return colorMap[category] || '#607D8B';
+        },
+        formatCategoryDisplay(category) {
+            if (Array.isArray(category)) {
+                return category[0]; // Return the first category from the array
+            }
+            return category; // Return as is if it's already a string
         }
     }
 };
@@ -157,9 +164,10 @@ export default {
 <style scoped>
 .body {
     margin-left: 80px;
-    background-color: #2c0d54;
+    background: var(--background);
     min-height: 100vh;
-    color: white;
+    color: var(--text-primary);
+    transition: background 0.3s, color 0.3s;
 }
 
 .custom-tabs-container {
@@ -171,7 +179,7 @@ export default {
     max-width: 900px;
     margin: 0 auto;
     position: relative;
-    background: rgba(92, 36, 158, 0.3);
+    background: rgba(var(--secondary-rgb, 81, 45, 168), 0.3);
     border-radius: 12px;
     padding: 6px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
@@ -194,14 +202,15 @@ export default {
     border-radius: 8px;
     margin: 0 4px;
     padding: 0 16px;
+    color: var(--text-primary);
 }
 
 .custom-tab:hover {
-    background: rgba(156, 100, 226, 0.2);
+    background: rgba(var(--primary-rgb, 41, 98, 255), 0.2);
     opacity: 1;
 }
+
 .v-btn {
-    color: white !important;
     opacity: 0.8;
 }
 
@@ -214,10 +223,17 @@ export default {
     cursor: pointer;
     padding: 16px;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    background-color: #3a1266;
+    box-shadow: var(--card-shadow);
+    background-color: var(--card-bg);
     height: 100%;
-    color: white;
+    color: var(--text-primary);
+    border: 1px solid var(--card-border);
+}
+
+.card:hover {
+    box-shadow: var(--card-hover-shadow);
+    transform: translateY(-2px);
+    background: var(--card-highlight);
 }
 
 .animate__animated {
@@ -231,7 +247,10 @@ export default {
     margin-top: 8px;
 }
 
-
+.category-label {
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
 
 .category-chips {
     display: flex;
@@ -247,5 +266,4 @@ export default {
 .category-chip:hover {
     transform: translateY(-2px);
 }
-
 </style>
