@@ -22,8 +22,8 @@
         </v-row>
 
         <v-row>
-            <v-col v-for="produto in Appstore.productsSaved" :key="produto.id" cols="12" sm="6" md="4" lg="3">
-                <div class="card animate__animated animate__fadeInUp">
+            <v-col v-for="produto in Appstore.productsSaved" :key="produto.categoriaProduct" cols="12" sm="6" md="4" lg="3">
+                <div v-if="this.categoriaSelecionada == produto.categoriaProduct" class="card animate__animated animate__fadeInUp">
                     <div class="d-flex justify-space-between align-center mb-2">
                         <strong style="color: var(--text-primary); font-size: 1.1rem;">
                             {{ produto.productName }}
