@@ -162,7 +162,6 @@ export default {
     color: white;
 }
 
-/* Custom tabs styling */
 .custom-tabs-container {
     margin: 20px 0;
     position: relative;
@@ -201,36 +200,6 @@ export default {
     background: rgba(156, 100, 226, 0.2);
     opacity: 1;
 }
-
-.custom-tab--active {
-    background: rgba(156, 100, 226, 0.3) !important;
-    color: white !important;
-    opacity: 1 !important;
-    font-weight: 600 !important;
-    transform: translateY(-1px);
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-}
-
-.v-tab--active {
-    background: rgba(156, 100, 226, 0.3) !important;
-    color: white !important;
-    opacity: 1 !important;
-    font-weight: 600 !important;
-    transform: translateY(-1px);
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
-}
-
-.v-tabs-slider {
-    height: 3px !important;
-    background-color: #9c64e2 !important;
-}
-
-.v-bottom-navigation {
-    background-color: transparent !important;
-    box-shadow: none !important;
-    border: none !important;
-}
-
 .v-btn {
     color: white !important;
     opacity: 0.8;
@@ -240,7 +209,6 @@ export default {
     opacity: 1;
 }
 
-/* Adjust card styles to match dark theme */
 .card {
     transition: all 0.3s ease-in-out;
     cursor: pointer;
@@ -250,14 +218,6 @@ export default {
     background-color: #3a1266;
     height: 100%;
     color: white;
-}
-
-.active-chip {
-    background-color: var(--secondary, #03a9f4) !important;
-    color: white !important;
-    font-weight: bold;
-    transform: translateY(-4px);
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
 }
 
 .animate__animated {
@@ -271,12 +231,7 @@ export default {
     margin-top: 8px;
 }
 
-.category-label {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text-secondary);
-    margin-bottom: 4px;
-}
+
 
 .category-chips {
     display: flex;
@@ -293,14 +248,4 @@ export default {
     transform: translateY(-2px);
 }
 
-.category-nav-card {
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
-
-.category-nav-card:hover {
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-}
 </style>
