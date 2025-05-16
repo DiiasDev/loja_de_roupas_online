@@ -1,6 +1,8 @@
 :root {
     --primary: #2962FF;
+    --primary-rgb: 41, 98, 255;
     --secondary: #512DA8;
+    --secondary-rgb: 81, 45, 168;
     --background: linear-gradient(to right top, #032251, #004073, #006094, #0082b4, #06a5d1);
     --surface: #FFFFFF;
     --text-primary: #000000; /* Ajuste para melhorar o contraste no tema claro */
@@ -38,7 +40,9 @@
 
 :root[data-theme="dark"] {
     --primary: #82B1FF;
+    --primary-rgb: 130, 177, 255;
     --secondary: #9575CD;
+    --secondary-rgb: 149, 117, 205;
     --background: linear-gradient(to right top, #320446, #2d054b, #260650, #1b0855, #070b5a);
     --surface: #1E1E1E;
     --text-primary: #FFFFFF;
@@ -72,8 +76,6 @@
     --nav-border: rgba(255, 255, 255, 0.12);
     --nav-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
 }
-
-
 
 .body {
     background: var(--background);
