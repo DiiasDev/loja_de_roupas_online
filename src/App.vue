@@ -25,7 +25,7 @@ import MeuPerfil from './pages/meuPerfil.vue'
 import SobreLoja from './pages/SobreLoja.vue'
 import Footer from './components/reutilizaveis/Footer.vue'
 import NavigationVue from './components/reutilizaveis/navigation.vue'
-import productsPage from './pages/produtos.vue'
+import productsPage from './pages/produtos/produtos.vue'
 
 export default {
   name: 'App',

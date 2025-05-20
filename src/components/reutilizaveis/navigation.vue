@@ -10,7 +10,7 @@
 
     <v-list density="compact">
       <v-list-item @click="inicio" class="homeIcon" prepend-icon="mdi-home" title="Início" value="home" />
-      <v-list-item @click="redirecionaProduct" prepend-icon="mdi-package-variant" title="Cadastrar de Produtos" value="Cadastrar de Produtos" />
+      <v-list-item @click="redirecionaProduct" prepend-icon="mdi-package-variant" title="Cadastrar Produtos" value="Cadastrar Produtos" />
       <v-list-item @click="redireciona" prepend-icon="mdi-account" title="Meu Perfil" value="profile" />
       <v-list-item @click="openCarrinho" prepend-icon="mdi-cart" title="Carrinho" value="cart" />
       <v-list-item @click="redirecionaAbout" prepend-icon="mdi-information" title="Sobre a Loja" value="about" />
@@ -119,7 +119,6 @@ export default {
 
       localStorage.setItem('theme', theme);
 
-      console.log("Novo tema:", theme);
     }
   }
 }

@@ -12,27 +12,7 @@
                     ➕ ADICIONAR PRODUTO
                 </v-btn>
                 
-                <div class="custom-tabs-container">
-                    <div class="tabs-wrapper">
-                        <v-tabs 
-                            v-model="categoriaSelecionada"
-                            background-color="transparent"
-                            slider-color="var(--secondary)"
-                            centered
-                            class="custom-tabs"
-                        >
-                            <v-tab 
-                                v-for="categoria in categorias" 
-                                :key="categoria"
-                                :value="categoria"
-                                @click="selecionarCategoria(categoria)"
-                                class="custom-tab"
-                            >
-                                {{ categoria }}
-                            </v-tab>
-                        </v-tabs>
-                    </div>
-                </div>
+                <TabNavigation v-model="categoriaSelecionada" @change="onCategoriaChange"/>
             </v-col>
         </v-row>
 
@@ -77,16 +57,17 @@
 </template>
 
 <script>
-import { useAppStore } from '../store/app.ts';
-import modalCadastroProduto from '../components/modals/cadastroProduto.vue'
+import { useAppStore } from '../../store/app.ts';
+import modalCadastroProduto from '../../components/modals/cadastroProduto.vue';
+import TabNavigation from '../../components/tabNavigation/TabNavigation.vue'
 export default {
     name: 'productsPage',
     components: {
-        modalCadastroProduto
+        modalCadastroProduto,
+        TabNavigation
     },
     data() {
         return {
-            categorias: ['Camisa', 'Calça', 'Bermuda', 'Vestido', 'Jaquetas/Moletons'],
             categoriaSelecionada: 'Camisa',
         };
     },
@@ -114,8 +95,8 @@ export default {
         }
     },
     methods: {
-        selecionarCategoria(cat) {
-            this.categoriaSelecionada = cat;
+        onCategoriaChange(categoria) {
+            this.categoriaSelecionada = categoria;
         },
         criarProduto() {
             this.Appstore.modalCadastroProduct = true
@@ -130,16 +111,7 @@ export default {
                 localStorage.setItem('Produtos', JSON.stringify(this.Appstore.productsSaved));
             }
         },
-        getCategoryIcon(category) {
-            const iconMap = {
-                'Camisa': 'mdi-tshirt-crew',
-                'Calça': 'mdi-pants',
-                'Bermuda': 'mdi-bike',
-                'Vestido': 'mdi-hanger',
-                'Jaquetas/Moletons': 'mdi-jacket',
-            };
-            return iconMap[category] || 'mdi-tag';
-        },
+     
         getCategoryColor(category) {
             const colorMap = {
                 'Camisa': '#2196F3',
@@ -153,13 +125,14 @@ export default {
         },
         formatCategoryDisplay(category) {
             if (Array.isArray(category)) {
-                return category[0]; // Return the first category from the array
+                return category[0]; 
             }
-            return category; // Return as is if it's already a string
+            return category;
         }
     }
 };
 </script>
+
 
 <style scoped>
 .body {
@@ -170,45 +143,7 @@ export default {
     transition: background 0.3s, color 0.3s;
 }
 
-.custom-tabs-container {
-    margin: 20px 0;
-    position: relative;
-}
 
-.tabs-wrapper {
-    max-width: 900px;
-    margin: 0 auto;
-    position: relative;
-    background: rgba(var(--secondary-rgb, 81, 45, 168), 0.3);
-    border-radius: 12px;
-    padding: 6px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(5px);
-    width: 33%;
-}
-
-.custom-tabs {
-    height: 54px;
-}
-
-.custom-tab {
-    min-width: 110px;
-    letter-spacing: 0.5px;
-    text-transform: none;
-    font-weight: 500;
-    font-size: 15px;
-    transition: all 0.3s ease;
-    opacity: 0.7;
-    border-radius: 8px;
-    margin: 0 4px;
-    padding: 0 16px;
-    color: var(--text-primary);
-}
-
-.custom-tab:hover {
-    background: rgba(var(--primary-rgb, 41, 98, 255), 0.2);
-    opacity: 1;
-}
 
 .v-btn {
     opacity: 0.8;
