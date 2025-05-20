@@ -24,9 +24,9 @@
                 R$ {{ produto.precoProduct }}
             </p>
 
-            <v-btn color="primary" small class="mr-2" @click="editarProduto(produto)">
+            <!-- <v-btn color="primary" small class="mr-2" @click="editarProduto(produto)">
                 ✏️ Editar
-            </v-btn>
+            </v-btn> -->
             <v-btn color="error" small outlined @click="excluirProduto(produto.idProduct)">
                 🗑️ Excluir
             </v-btn>
@@ -61,12 +61,13 @@ export default {
                 localStorage.setItem('Produtos', JSON.stringify(this.Appstore.productsSaved));
             }
         },
-        
-        editarProduto(produto) {
-            this.Appstore.selectedProduct = produto;
-            this.Appstore.isEditing = true;
-            this.Appstore.modalCadastroProduct = true;
-        },
+
+        // editarProduto(produto) {
+        //     this.Appstore.selectedProduct = produto;
+
+            
+        //     this.Appstore.modalCadastroProduct = true;
+        // },
 
         getCategoryColor(category) {
             const colorMap = {
