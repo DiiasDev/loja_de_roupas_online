@@ -10,7 +10,7 @@
       <productsPage v-if="appStore.isProduct" />
     </template>
 
-    <Footer />
+    <Footer/>
 
   </v-app>
 </template>
