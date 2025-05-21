@@ -14,7 +14,7 @@
             <v-col cols="12" sm="4" class="d-flex justify-center align-center">
               <v-avatar size="150" class="profile-avatar">
                 <v-img
-                  :src="dados.profileImage || 'https://www.cnnbrasil.com.br/wp-content/uploads/sites/12/2025/02/cristiano-ronaldo-al-nassr-contrato-e1739188302718.jpg?w=1200&h=1200&crop=1'"
+                  :src="dados.profileImage || 'https://cdn-icons-png.flaticon.com/512/5987/5987462.png'"
                   alt="Foto do Usuário"></v-img>
               </v-avatar>
             </v-col>
