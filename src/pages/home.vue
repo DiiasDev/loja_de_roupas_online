@@ -56,6 +56,7 @@ export default {
             return useAppStore();
         },
         produtosFiltrados() {
+            // Home page should show all products from all users, but filtered by category
             return this.appStore.productsSaved.filter(p => {
                 // Handle if categoriaProduct is a string
                 if (typeof p.categoriaProduct === 'string') {

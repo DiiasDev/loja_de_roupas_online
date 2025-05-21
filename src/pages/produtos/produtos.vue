@@ -45,7 +45,8 @@ export default {
     },
     computed: {
         produtosFiltrados() {
-            return this.Appstore.productsSaved.filter(p => {
+            // Filter user products by the selected category
+            return this.Appstore.userProducts.filter(p => {
                 // Handle if categoriaProduct is a string
                 if (typeof p.categoriaProduct === 'string') {
                     return p.categoriaProduct === this.categoriaSelecionada;

@@ -54,11 +54,22 @@ export const useAppStore = defineStore("app", {
     categoriaProduct: [],
     descricaoProduct: '',
     precoProduct: '',
-    urlImageProduct: ''
+    urlImageProduct: '',
+    isEditing: false,
+    selectedProduct: null
   }),
   getters: {
     isAuthenticated() {
       return this.isLoged && this.currentUser !== null;
+    },
+    
+    userProducts() {
+      if (!this.currentUser) return [];
+      
+      return this.productsSaved.filter(product => 
+        product.userId === this.currentUser.id || 
+        product.userId === this.currentUser.email
+      );
     }
   },
 
@@ -132,6 +143,11 @@ export const useAppStore = defineStore("app", {
         return false;
       }
 
+      if (!this.currentUser) {
+        console.log('Erro: Usuário não está logado');
+        return false;
+      }
+
       try {
         const product = {
           idProduct: this.idProduct,
@@ -139,12 +155,13 @@ export const useAppStore = defineStore("app", {
           categoriaProduct: this.categoriaProduct,
           descricaoProduct: this.descricaoProduct,
           precoProduct: this.precoProduct,
-          urlImageProduct: this.urlImageProduct
+          urlImageProduct: this.urlImageProduct,
+          userId: this.currentUser.id || this.currentUser.email
         };
         this.productsSaved.push(product);
         this.idProduct++;
         localStorage.setItem('Produtos', JSON.stringify(this.productsSaved));
-        console.log(`Produto cadastrado com ID: ${product.idProduct}`);
+        console.log(`Produto cadastrado com ID: ${product.idProduct} para o usuário: ${product.userId}`);
         return true;
       } catch (error) {
         console.log('Falha ao salvar produto', error);
@@ -170,6 +187,29 @@ export const useAppStore = defineStore("app", {
         console.log('Erro ao carregar produtos do localStorage', error);
       }
     },
+    getUserProducts() {
+      if (!this.currentUser) return [];
+      
+      return this.productsSaved.filter(product => 
+        product.userId === this.currentUser.id || 
+        product.userId === this.currentUser.email
+      );
+    },
+    migrateExistingProducts() {
+      let needsMigration = false;
+      
+      this.productsSaved.forEach(product => {
+        if (!product.userId && this.currentUser) {
+          product.userId = this.currentUser.id || this.currentUser.email;
+          needsMigration = true;
+        }
+      });
+      
+      if (needsMigration) {
+        localStorage.setItem('Produtos', JSON.stringify(this.productsSaved));
+        console.log('Produtos existentes foram migrados para incluir o ID do usuário');
+      }
+    },
     showProduct() {
       try {
         if (this.product) {
@@ -179,6 +219,39 @@ export const useAppStore = defineStore("app", {
       } catch (error) {
         console.log('Erro ao mostrar produto', error)
       }
+    },
+    deleteProduct(productId) {
+      const index = this.productsSaved.findIndex(p => p.idProduct === productId);
+      
+      if (index !== -1) {
+        const product = this.productsSaved[index];
+        const currentUserId = this.currentUser?.id || this.currentUser?.email;
+        
+        if (product.userId === currentUserId) {
+          this.productsSaved.splice(index, 1);
+          localStorage.setItem('Produtos', JSON.stringify(this.productsSaved));
+          return true;
+        }
+        return false;
+      }
+      return false;
+    },
+    editProduct(updatedProduct) {
+      const index = this.productsSaved.findIndex(p => p.idProduct === updatedProduct.idProduct);
+      
+      if (index !== -1) {
+        const product = this.productsSaved[index];
+        const currentUserId = this.currentUser?.id || this.currentUser?.email;
+        
+        if (product.userId === currentUserId) {
+          updatedProduct.userId = currentUserId;
+          this.productsSaved[index] = updatedProduct;
+          localStorage.setItem('Produtos', JSON.stringify(this.productsSaved));
+          return true;
+        }
+        return false;
+      }
+      return false;
     }
   },
 });

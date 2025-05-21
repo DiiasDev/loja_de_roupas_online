@@ -102,6 +102,8 @@
 
       <!-- Added spacer div for bottom navigation -->
       <div class="bottom-spacer"></div>
+
+      <!-- Add the UserProductsList component -->
     </v-col>
   </v-row>
 </template>
@@ -113,7 +115,7 @@ import navgation from '../components/reutilizaveis/navigation.vue';
 
 export default {
   components: {
-    navgation
+    navgation,
   },
   name: 'MeuPerfil',
   data() {
