@@ -7,21 +7,11 @@
                     <v-card class="mt-3" height="35vh" width="80vw" :style="bannerStyle">
                     </v-card>
                 </v-col>
+                <TabNavigation v-model="categoriaSelecionada" @change="onCategoriaChange" />
             </v-row>
 
-            <v-row class="ml-6" v-if="!appStore.isPerfil" style="margin-top: 64px; padding: 0 16px;"> <!-- Ajuste o valor conforme necessário -->
-                <v-col v-for="(product, index) in products" :key="index" cols="12" sm="6" md="6" lg="3">
-                    <v-card class="custom-card elevation-0" :hover="true">
-                        <v-img :src="product.image" height="200px" style="border-radius: 12px 12px 0 0;" />
-                        <v-card-title class="text-h6">{{ product.name }}</v-card-title>
-                        <v-card-subtitle class="text-body-2">{{ product.description }}</v-card-subtitle>
-                        <v-card-actions>
-                            <v-btn color="primary" class="custom-button">
-                                Adicionar ao Carrinho
-                            </v-btn>
-                        </v-card-actions>
-                    </v-card>
-                </v-col>
+            <v-row> <!-- Ajuste o valor conforme necessário -->
+                <CardsProduto :produtos="produtosFiltrados" />
             </v-row>
 
         </v-container>
@@ -32,40 +22,53 @@
 import { useAppStore } from '../store/app.ts'
 import bannerImage from '@/assets/novawear.png';
 import NavigationVue from '../components/reutilizaveis/navigation.vue'
-// import CarrinhoDeCompras from '../modals/carrinhoDeCompras.vue'
-// import modalSuporte from '../modals/suporte.vue'
+import TabNavigation from '../components/tabNavigation/TabNavigation.vue'
+import CardsProduto from '../components/cardsProduto/CardsProduto.vue'
 
 export default {
     name: 'HomeVue',
     components: {
-        // CarrinhoDeCompras,
-        // modalSuporte,
-        NavigationVue
+        NavigationVue,
+        TabNavigation,
+        CardsProduto
     },
     data() {
         return {
-            products: [
-                { name: 'Camiseta Básica', description: 'Camiseta confortável para o dia a dia.',  },
-                { name: 'Jaqueta de Couro', description: 'Estilo e elegância para qualquer ocasião.', },
-                { name: 'Calça Jeans', description: 'A calça perfeita para qualquer look.',},
-                { name: 'Camiseta Básica', description: 'Camiseta confortável para o dia a dia.',  },
-                { name: 'Camiseta Básica', description: 'Camiseta confortável para o dia a dia.',  },
-                { name: 'Camiseta Básica', description: 'Camiseta confortável para o dia a dia.',  },
-                { name: 'Camiseta Básica', description: 'Camiseta confortável para o dia a dia.',  },
-            ],
             bannerStyle: {
                 backgroundImage: `url(${bannerImage})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-            }
+            },
+            categoriaSelecionada: 'Camisa',
         }
+    },
+    mounted() {
+        this.appStore.loadProductsFromStorage();
     },
     computed: {
         appStore() {
             return useAppStore();
         },
+        produtosFiltrados() {
+            return this.appStore.productsSaved.filter(p => {
+                // Handle if categoriaProduct is a string
+                if (typeof p.categoriaProduct === 'string') {
+                    return p.categoriaProduct === this.categoriaSelecionada;
+                }
+
+                // Handle if categoriaProduct is an array
+                if (Array.isArray(p.categoriaProduct)) {
+                    return p.categoriaProduct.includes(this.categoriaSelecionada);
+                }
+
+                return false;
+            });
+        },
     },
     methods: {
+        onCategoriaChange(categoria) {
+            this.categoriaSelecionada = categoria;
+        },
     }
 }
 </script>
