@@ -1,98 +1,107 @@
 <template>
-  <!-- Desktop navigation -->
-  <v-navigation-drawer v-if="!isMobile" expand-on-hover rail permanent app
-    style="position: fixed; top: 0; left: 0; height: 100vh; overflow-y: auto;">
-    <v-list>
-      <v-list-item :prepend-avatar="perfil.profileImage" :subtitle="perfil.email" :title="perfil.name">
-      </v-list-item>
-    </v-list>
-    <v-divider />
+  <v-layout>
+    <!-- Desktop navigation -->
+    <v-navigation-drawer v-if="!isMobile" expand-on-hover rail app
+      style="position: fixed; top: 0; left: 0; height: 100vh; overflow-y: auto;">
+      <v-list>
+        <v-list-item :prepend-avatar="perfil.profileImage" :subtitle="perfil.email" :title="perfil.name">
+        </v-list-item>
+      </v-list>
+      <v-divider />
 
-    <v-list density="compact">
-      <v-list-item @click="inicio" class="homeIcon" prepend-icon="mdi-home" title="Início" value="home" />
-      <v-list-item @click="redirecionaProduct" prepend-icon="mdi-package-variant" title="Cadastrar Produtos"
-        value="Cadastrar Produtos" />
-      <v-list-item @click="redireciona" prepend-icon="mdi-account" title="Meu Perfil" value="profile" />
-      <v-list-item @click="openCarrinho" prepend-icon="mdi-cart" title="Carrinho" value="cart" />
-      <v-list-item @click="redirecionaAbout" prepend-icon="mdi-information" title="Sobre a Loja" value="about" />
-      <v-list-item @click="openModalSuporte" prepend-icon="mdi-face-agent" title="Suporte" value="support" />
-      <v-list-item @click="changeTheme" :prepend-icon="currentIcon" title="Mudar Tema" value="Mudar Tema" />
-    </v-list>
-  </v-navigation-drawer>
+      <v-list density="compact">
+        <v-list-item @click="inicio" class="homeIcon" prepend-icon="mdi-home" title="Início" value="home" />
+        <v-list-item @click="redirecionaProduct" prepend-icon="mdi-package-variant" title="Cadastrar Produtos"
+          value="Cadastrar Produtos" />
+        <v-list-item @click="redireciona" prepend-icon="mdi-account" title="Meu Perfil" value="profile" />
+        <v-list-item @click="openCarrinho" prepend-icon="mdi-cart" title="Carrinho" value="cart" />
+        <v-list-item @click="redirecionaAbout" prepend-icon="mdi-information" title="Sobre a Loja" value="about" />
+        <v-list-item @click="openModalSuporte" prepend-icon="mdi-face-agent" title="Suporte" value="support" />
+        <v-list-item @click="changeTheme" :prepend-icon="currentIcon" title="Mudar Tema" value="Mudar Tema" />
+      </v-list>
+    </v-navigation-drawer>
 
-  <v-bottom-sheet v-model="mobileDrawerOpen" v-if="isMobile" class="mobile-menu-sheet">
-    <v-card class="mobile-menu-card">
-      <v-card-item class="mobile-user-profile">
-        <v-avatar size="60" class="mr-4">
-          <v-img :src="perfil.profileImage || 'https://cdn.vuetifyjs.com/images/john.jpg'" alt="User Avatar"></v-img>
-        </v-avatar>
-        <div>
-          <v-card-title class="pa-0">{{ perfil.name || 'Usuário' }}</v-card-title>
-          <v-card-subtitle class="pa-0">{{ perfil.email || 'exemplo@email.com' }}</v-card-subtitle>
-        </div>
-      </v-card-item>
-      
-      <v-divider class="my-2"></v-divider>
-      
+    <v-main>
       <v-container>
-        <v-row>
-          <v-col cols="4" class="text-center" v-for="(item, index) in menuItems" :key="index">
-            <v-btn variant="text" @click="executeAction(item.action)" class="mobile-menu-btn" width="100%" height="80">
-              <v-col class="pa-0">
-                <v-icon size="large" :color="getActiveColor(item.value)">{{ item.icon }}</v-icon>
-                <div class="text-caption mt-1">{{ item.title }}</div>
-              </v-col>
-            </v-btn>
-          </v-col>
-        </v-row>
+        <template>
+          <SobreLoja v-if="appStore.isAbout == true" />
+        </template>
+        <CarrinhoDeCompras />
+        <modalSuporte />
       </v-container>
-      
-      <v-divider class="my-2"></v-divider>
-      
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn variant="text" color="primary" @click="mobileDrawerOpen = false">
-          Fechar
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-bottom-sheet>
+    </v-main>
 
-  <!-- Mobile bottom navigation bar -->
-  <v-bottom-navigation v-if="isMobile" app fixed color="primary" grow>
-    <v-btn @click="inicio" :value="appStore.isHome">
-      <v-icon>mdi-home</v-icon>
-      <span class="text-caption">Início</span>
-    </v-btn>
-    
-    <v-btn @click="redirecionaProduct" :value="appStore.isProduct">
-      <v-icon>mdi-package-variant</v-icon>
-      <span class="text-caption">Produtos</span>
-    </v-btn>
-    
-    <v-btn @click="openCarrinho" :value="appStore.modalCarrinho">
-      <v-icon>mdi-cart</v-icon>
-      <span class="text-caption">Carrinho</span>
-    </v-btn>
-    
-    <v-btn @click="redireciona" :value="appStore.isPerfil">
-      <v-icon>mdi-account</v-icon>
-      <span class="text-caption">Perfil</span>
-    </v-btn>
-    
-    <v-btn @click="toggleMobileNav">
-      <v-icon>mdi-menu</v-icon>
-      <span class="text-caption">Menu</span>
-    </v-btn>
-  </v-bottom-navigation>
+    <!-- Mobile menu bottom sheet -->
+    <v-bottom-sheet v-model="mobileDrawerOpen" v-if="isMobile" class="mobile-menu-sheet">
+      <v-card class="mobile-menu-card">
+        <v-card-item class="mobile-user-profile">
+          <v-avatar size="60" class="mr-4">
+            <v-img :src="perfil.profileImage || 'https://cdn.vuetifyjs.com/images/john.jpg'" alt="User Avatar"></v-img>
+          </v-avatar>
+          <div>
+            <v-card-title class="pa-0">{{ perfil.name || 'Usuário' }}</v-card-title>
+            <v-card-subtitle class="pa-0">{{ perfil.email || 'exemplo@email.com' }}</v-card-subtitle>
+          </div>
+        </v-card-item>
+        
+        <v-divider class="my-2"></v-divider>
+        
+        <v-container>
+          <v-row>
+            <v-col cols="4" class="text-center" v-for="(item, index) in menuItems" :key="index">
+              <v-btn variant="text" @click="executeAction(item.action)" class="mobile-menu-btn" width="100%" height="80">
+                <v-col class="pa-0">
+                  <v-icon size="large" :color="getActiveColor(item.value)">{{ item.icon }}</v-icon>
+                  <div class="text-caption mt-1">{{ item.title }}</div>
+                </v-col>
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-container>
+        
+        <v-divider class="my-2"></v-divider>
+        
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn variant="text" color="primary" @click="mobileDrawerOpen = false">
+            Fechar
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-bottom-sheet>
 
-  <v-container>
-    <template>
-      <SobreLoja v-if="appStore.isAbout == true" />
-    </template>
-    <CarrinhoDeCompras />
-    <modalSuporte />
-  </v-container>
+    <!-- Mobile bottom navigation bar -->
+    <v-bottom-navigation 
+      v-if="isMobile" 
+      :model-value="true"
+      color="primary" 
+      grow>
+      <v-btn @click="inicio" :value="appStore.isHome">
+        <v-icon>mdi-home</v-icon>
+        <span class="text-caption">Início</span>
+      </v-btn>
+      
+      <v-btn @click="redirecionaProduct" :value="appStore.isProduct">
+        <v-icon>mdi-package-variant</v-icon>
+        <span class="text-caption">Produtos</span>
+      </v-btn>
+      
+      <v-btn @click="openCarrinho" :value="appStore.modalCarrinho">
+        <v-icon>mdi-cart</v-icon>
+        <span class="text-caption">Carrinho</span>
+      </v-btn>
+      
+      <v-btn @click="redireciona" :value="appStore.isPerfil">
+        <v-icon>mdi-account</v-icon>
+        <span class="text-caption">Perfil</span>
+      </v-btn>
+      
+      <v-btn @click="toggleMobileNav">
+        <v-icon>mdi-menu</v-icon>
+        <span class="text-caption">Menu</span>
+      </v-btn>
+    </v-bottom-navigation>
+  </v-layout>
 </template>
 
 <script>
@@ -419,6 +428,10 @@ export default {
   background-color: var(--nav-bg) !important;
   border-top: 1px solid var(--nav-border) !important;
   height: 64px !important;
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
 }
 
 .v-bottom-navigation .v-btn {
@@ -460,24 +473,13 @@ export default {
 
 /* Media queries for responsive design */
 @media (max-width: 768px) {
-  .v-container {
-    margin-bottom: 64px;
-  }
-}
-
-@media (min-width: 769px) {
-  .v-container {
-    margin-bottom: 0;
+  .v-main {
+    padding-bottom: 64px !important;
   }
 }
 
 /* Mantendo outras propriedades importantes */
-.v-main {
-  height: 0%;
-  padding: 0px;
-}
-
 .v-layout {
-  padding: 0px;
+  height: 100%;
 }
 </style>

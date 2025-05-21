@@ -2,17 +2,17 @@
     <v-container fluid class="body">
         <v-row>
             <v-col cols="12" class="text-center mb-2">
-                <h1 style="color: var(--text-primary); font-weight: bold;">
+                <h1 class="product-title">
                     🛍️ Produtos da Loja
                 </h1>
-                <p style="color: var(--text-secondary); font-size: 1.1rem;">
+                <p class="product-subtitle">
                     Explore, adicione ou edite produtos por categoria.
                 </p>
-                <v-btn color="primary" dark class="my-4" @click="criarProduto">
+                <v-btn color="primary" dark class="my-4 add-product-btn" @click="criarProduto">
                     ➕ ADICIONAR PRODUTO
                 </v-btn>
                 
-                <TabNavigation v-model="categoriaSelecionada" @change="onCategoriaChange"/>
+                <TabNavigation style="width: 95% !important; display: flex; justify-content:center; margin: auto;" v-model="categoriaSelecionada" @change="onCategoriaChange"/>
             </v-col>
         </v-row>
 
@@ -84,5 +84,55 @@ export default {
     min-height: 100vh;
     color: var(--text-primary);
     transition: background 0.3s, color 0.3s;
+}
+
+.product-title {
+    color: var(--text-primary);
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.product-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+.add-product-btn {
+    min-width: 200px;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 960px) {
+    .body {
+        margin-left: 0;
+        padding: 16px;
+        padding-bottom: 76px; /* Added padding to account for bottom navigation */
+    }
+    
+    .product-title {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .body {
+        margin-left: 0;
+        padding: 12px;
+        padding-bottom: 76px; /* Added padding to account for bottom navigation */
+    }
+    
+    .product-title {
+        font-size: 1.5rem;
+    }
+    
+    .product-subtitle {
+        font-size: 1rem;
+    }
+    
+    .add-product-btn {
+        width: 100%;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
 }
 </style>
