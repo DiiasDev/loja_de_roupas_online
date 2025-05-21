@@ -59,6 +59,17 @@
                     style="display: none"
                     @change="handleFileUpload"
                   />
+                  <v-btn v-if="previewImage && previewImage !== dados.profileImage" 
+                    color="error" 
+                    class="ml-2" 
+                    @click="removePhoto">
+                    Remover
+                  </v-btn>
+                </v-col>
+                <v-col cols="12" v-if="imageError" class="text-center">
+                  <v-alert type="error" dense>
+                    {{ imageError }}
+                  </v-alert>
                 </v-col>
                 <v-col cols="12">
                   <v-text-field
@@ -133,7 +144,9 @@ export default {
         address: '',
         profileImage: ''
       },
-      previewImage: null
+      previewImage: null,
+      imageError: null,
+      maxImageSize: 200 * 1024 // 200KB max size
     };
   },
   mounted(){
@@ -151,7 +164,6 @@ export default {
         if (Array.isArray(this.dados) && this.dados.length > 0) {
           this.dados = this.dados[0];
         }
-        // Inicializar o objeto editedUser com os dados atuais
         this.editedUser = { ...this.dados };
         this.previewImage = this.dados.profileImage || null;
         return;
@@ -175,43 +187,126 @@ export default {
       if (!file) return;
       
       if (!file.type.includes('image/')) {
-        alert('Por favor, selecione uma imagem válida.');
+        this.imageError = 'Por favor, selecione uma imagem válida.';
         return;
       }
+
+      if (file.size > 2 * 1024 * 1024) { // 2MB limit for compression
+        this.imageError = 'A imagem é muito grande. Selecione uma imagem menor que 2MB.';
+        return;
+      }
+      
+      this.imageError = null;
+      this.compressImage(file);
+      
+      this.notifyProfileUpdate();
+    },
+
+    compressImage(file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        this.previewImage = e.target.result;
-        this.editedUser.profileImage = e.target.result;
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          
+          let width = img.width;
+          let height = img.height;
+          const maxSize = 300;
+          
+          if (width > height) {
+            if (width > maxSize) {
+              height = Math.round((height * maxSize) / width);
+              width = maxSize;
+            }
+          } else {
+            if (height > maxSize) {
+              width = Math.round((width * maxSize) / height);
+              height = maxSize;
+            }
+          }
+          
+          canvas.width = width;
+          canvas.height = height;
+          
+          ctx.drawImage(img, 0, 0, width, height);
+          
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.6);
+          
+          const estimatedSize = Math.round((compressedDataUrl.length * 3) / 4);
+          if (estimatedSize > this.maxImageSize) {
+            this.imageError = 'A imagem ainda é muito grande após compressão. Tente uma imagem menor.';
+            return;
+          }
+          
+          this.previewImage = compressedDataUrl;
+          this.editedUser.profileImage = compressedDataUrl;
+        };
+        img.src = e.target.result;
       };
       reader.readAsDataURL(file);
     },
+
+    removePhoto() {
+      this.previewImage = null;
+      this.editedUser.profileImage = null;
+      this.imageError = null;
+      
+      this.notifyProfileUpdate();
+    },
+    
     saveProfile() {
       if (!this.editedUser.name || !this.editedUser.email || !this.editedUser.phone) {
-        alert('Por favor, preencha todos os campos obrigatórios.');
+        this.showSnackbar('Por favor, preencha todos os campos obrigatórios.');
         return;
       }
       
-      this.dados = { ...this.editedUser };
+      const tempUser = { ...this.editedUser };
+      if (this.imageError) {
+        tempUser.profileImage = this.dados.profileImage;
+        this.showSnackbar('A imagem foi ignorada devido a limitações de tamanho.');
+      }
       
-      let users = JSON.parse(localStorage.getItem('user'));
+      this.dados = { ...tempUser };
+      
+      let users = JSON.parse(localStorage.getItem('user')) || [];
       if (Array.isArray(users) && users.length > 0) {
         users[0] = this.dados;
       } else {
         users = [this.dados];
       }
       
-      localStorage.setItem('user', JSON.stringify(users));
-      
-      this.$nextTick(() => {
-        this.getData();
-      });
-      
-      this.dialogOpen = false;
-      
-      this.$nextTick(() => {
-        this.$emit('profile-updated');
-        this.showSnackbar('Perfil atualizado com sucesso!');
-      });
+      try {
+        localStorage.setItem('user', JSON.stringify(users));
+        
+        this.notifyProfileUpdate();
+        
+        this.$nextTick(() => {
+          this.getData();
+        });
+        
+        this.dialogOpen = false;
+        this.imageError = null;
+        
+        this.$nextTick(() => {
+          this.notifyProfileUpdate();
+          
+          this.$emit('profile-updated');
+          this.showSnackbar('Perfil atualizado com sucesso!');
+        });
+      } catch (error) {
+        console.error('Error saving to localStorage:', error);
+        this.showSnackbar('Erro ao salvar o perfil. A imagem pode ser muito grande.');
+        
+        if (this.editedUser.profileImage && this.editedUser.profileImage !== this.dados.profileImage) {
+          this.editedUser.profileImage = this.dados.profileImage;
+          this.showSnackbar('A imagem não pode ser salva. Tente uma imagem menor.');
+        }
+      }
+    },
+    
+    notifyProfileUpdate() {
+      window.dispatchEvent(new CustomEvent('user-profile-updated'));
     },
     
     showSnackbar(message) {
