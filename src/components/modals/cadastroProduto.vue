@@ -35,11 +35,21 @@
                                 :items=Appstore.categories multiple></v-select>
                             <v-textarea v-model="Appstore.descricaoProduct" label="📝 Descrição" required></v-textarea>
                             <v-text-field v-model="Appstore.precoProduct" label="💰 Preço" prefix="R$" type="text"
-                                required></v-text-field> <v-text-field v-model="Appstore.urlImageProduct"
-                                label="🖼️ URL da Imagem" required></v-text-field>
+                                required></v-text-field>
+                            
+                            <!-- Campo de upload de arquivo -->
+                            <v-file-input
+                                v-model="imageFile"
+                                label="🖼️ Upload de Imagem"
+                                accept="image/*"
+                                prepend-icon="mdi-camera"
+                                @change="handleFileUpload"
+                                show-size
+                                required
+                            ></v-file-input>
 
-                            <v-img :src="Appstore.urlImageProduct" max-height="200" contain class="mt-4"
-                                v-if="Appstore.urlImageProduct"></v-img>
+                            <v-img :src="imagePreview" max-height="200" contain class="mt-4"
+                                v-if="imagePreview"></v-img>
                         </v-card-text>
 
                         <!-- Ações -->
@@ -68,14 +78,70 @@ export default {
     data() {
         return {
             snackbar: false,
-            erroValidacao: null
+            erroValidacao: null,
+            imageFile: null, // To store the file object
+            imagePreview: null // To preview uploaded file
         }
     },
     computed: {
         Appstore() {
             return useAppStore()
         }
-    }, methods: {
+    }, 
+    methods: {
+        handleFileUpload(fileInput) {
+            // Clear previous data
+            this.imagePreview = null;
+            this.Appstore.urlImageProduct = '';
+            
+            console.log("File input received:", fileInput);
+            
+            // If no file is selected or it's cleared
+            if (!fileInput) {
+                console.log("No file selected");
+                return;
+            }
+            
+            // Vuetify 3 file input can return various formats
+            // Need to extract the actual File object
+            let file = null;
+            
+            if (fileInput instanceof File) {
+                // Single file
+                file = fileInput;
+            } else if (Array.isArray(fileInput) && fileInput.length > 0) {
+                // Array of files (first one)
+                file = fileInput[0];
+            } else if (fileInput && fileInput.target && fileInput.target.files && fileInput.target.files[0]) {
+                // Event object with files
+                file = fileInput.target.files[0];
+            }
+            
+            if (!file || !(file instanceof File)) {
+                console.error("Could not extract valid file from:", fileInput);
+                this.erroValidacao = "Formato de arquivo inválido. Por favor, tente novamente.";
+                return;
+            }
+            
+            console.log("Processing file:", file.name, file.type, file.size);
+            
+            try {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    this.imagePreview = e.target.result;
+                    this.Appstore.urlImageProduct = e.target.result;
+                    console.log("Image loaded successfully");
+                };
+                reader.onerror = (error) => {
+                    console.error("FileReader error:", error);
+                    this.erroValidacao = "Erro ao processar a imagem. Por favor, tente novamente.";
+                };
+                reader.readAsDataURL(file);
+            } catch (error) {
+                console.error("Error handling file:", error);
+                this.erroValidacao = "Erro ao processar o arquivo. Verifique se é uma imagem válida.";
+            }
+        },
         validarProduto() {
             const store = this.Appstore
             const id = store.idProduct
@@ -101,13 +167,20 @@ export default {
             if (!preco || isNaN(precoNumerico)) {
                 return 'O campo 💰 Preço deve conter um valor numérico válido.'
             }
+            
+            // Verificando se temos uma imagem no store
             if (!imagem || !imagem.trim()) {
-                return 'O campo 🖼️ URL da Imagem é obrigatório.'
+                return 'O upload de uma imagem é obrigatório.'
             }
 
             return null // Sem erros
         },
         submitForm() {
+            // Verificar se a imagem foi carregada no Appstore
+            if (this.imagePreview && !this.Appstore.urlImageProduct) {
+                this.Appstore.urlImageProduct = this.imagePreview;
+            }
+            
             const erro = this.validarProduto()
 
             if (erro) {
@@ -126,13 +199,16 @@ export default {
                 this.Appstore.modalCadastroProduct = false
                 this.resetForm()
             }, 1000)
-        }, resetForm() {
+        }, 
+        resetForm() {
             const store = this.Appstore
             store.productName = ''
-            store.categoriaProduct = [] // Changed from '' to [] since it's an array
+            store.categoriaProduct = []
             store.descricaoProduct = ''
             store.precoProduct = ''
             store.urlImageProduct = ''
+            this.imageFile = null
+            this.imagePreview = null
         }
     }
 }
