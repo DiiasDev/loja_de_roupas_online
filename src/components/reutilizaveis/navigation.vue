@@ -39,8 +39,8 @@
             <v-img :src="perfil.profileImage || 'https://cdn.vuetifyjs.com/images/john.jpg'" alt="User Avatar"></v-img>
           </v-avatar>
           <div>
-            <v-card-title class="pa-0">{{ perfil.name || 'Usuário' }}</v-card-title>
-            <v-card-subtitle class="pa-0">{{ perfil.email || 'exemplo@email.com' }}</v-card-subtitle>
+            <v-card-title class="pa-0 user-name">{{ perfil.name || 'Usuário' }}</v-card-title>
+            <v-card-subtitle class="pa-0 user-email">{{ perfil.email || 'exemplo@email.com' }}</v-card-subtitle>
           </div>
         </v-card-item>
         
@@ -48,11 +48,13 @@
         
         <v-container>
           <v-row>
-            <v-col cols="4" class="text-center" v-for="(item, index) in menuItems" :key="index">
+            <v-col cols="4" class="text-center" v-for="(item, index) in mobileMenuItems" :key="index">
               <v-btn variant="text" @click="executeAction(item.action)" class="mobile-menu-btn" width="100%" height="80">
                 <v-col class="pa-0">
-                  <v-icon size="large" :color="getActiveColor(item.value)">{{ item.icon }}</v-icon>
-                  <div class="text-caption mt-1">{{ item.title }}</div>
+                  <v-icon size="large" :class="{'theme-icon': item.value === 'theme'}" :color="getActiveColor(item.value)">
+                    {{ typeof item.icon === 'function' ? item.icon() : item.icon }}
+                  </v-icon>
+                  <div class="text-caption mt-1 menu-item-text">{{ item.title }}</div>
                 </v-col>
               </v-btn>
             </v-col>
@@ -63,7 +65,7 @@
         
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn variant="text" color="primary" @click="mobileDrawerOpen = false">
+          <v-btn variant="text" color="primary" @click="mobileDrawerOpen = false" class="close-btn">
             Fechar
           </v-btn>
         </v-card-actions>
@@ -75,28 +77,29 @@
       v-if="isMobile" 
       :model-value="true"
       color="primary" 
-      grow>
-      <v-btn @click="inicio" :value="appStore.isHome">
+      grow
+      class="mobile-bottom-nav">
+      <v-btn @click="inicio" :value="appStore.isHome" class="mobile-nav-btn" :class="{ active: appStore.isHome }">
         <v-icon>mdi-home</v-icon>
         <span class="text-caption">Início</span>
       </v-btn>
       
-      <v-btn @click="redirecionaProduct" :value="appStore.isProduct">
+      <v-btn @click="redirecionaProduct" :value="appStore.isProduct" class="mobile-nav-btn" :class="{ active: appStore.isProduct }">
         <v-icon>mdi-package-variant</v-icon>
         <span class="text-caption">Produtos</span>
       </v-btn>
       
-      <v-btn @click="openCarrinho" :value="appStore.modalCarrinho">
+      <v-btn @click="openCarrinho" :value="appStore.modalCarrinho" class="mobile-nav-btn" :class="{ active: appStore.modalCarrinho }">
         <v-icon>mdi-cart</v-icon>
         <span class="text-caption">Carrinho</span>
       </v-btn>
       
-      <v-btn @click="redireciona" :value="appStore.isPerfil">
+      <v-btn @click="redireciona" :value="appStore.isPerfil" class="mobile-nav-btn" :class="{ active: appStore.isPerfil }">
         <v-icon>mdi-account</v-icon>
         <span class="text-caption">Perfil</span>
       </v-btn>
       
-      <v-btn @click="toggleMobileNav">
+      <v-btn @click="toggleMobileNav" class="mobile-nav-btn">
         <v-icon>mdi-menu</v-icon>
         <span class="text-caption">Menu</span>
       </v-btn>
@@ -199,6 +202,19 @@ export default {
     },
     isMobile() {
       return this.windowWidth < 768; // Breakpoint for mobile devices
+    },
+    mobileMenuItems() {
+      return this.menuItems.map(item => {
+        // Create a deep copy to avoid modifying the original
+        const newItem = { ...item };
+        
+        // Ensure the icon function is preserved
+        if (typeof item.icon === 'function') {
+          newItem.icon = item.icon;
+        }
+        
+        return newItem;
+      });
     }
   },
   methods: {
@@ -402,12 +418,17 @@ export default {
   border-radius: 16px 16px 0 0 !important;
   padding: 16px 8px !important;
   background-color: var(--nav-bg) !important;
+  color: var(--nav-text) !important;
 }
 
 .mobile-user-profile {
   display: flex;
   align-items: center;
   padding: 8px 16px;
+}
+
+.user-name, .user-email {
+  color: var(--nav-text) !important;
 }
 
 .mobile-menu-btn {
@@ -417,14 +438,28 @@ export default {
   justify-content: center;
   border-radius: 12px;
   transition: all 0.2s ease;
+  color: var(--nav-text) !important;
 }
 
 .mobile-menu-btn:hover {
   background-color: var(--nav-hover) !important;
 }
 
+.mobile-menu-btn .v-icon {
+  color: var(--nav-icon) !important;
+}
+
+.menu-item-text {
+  color: var(--nav-text) !important;
+}
+
+.theme-icon {
+  /* Ensure theme icon is always visible regardless of theme */
+  color: var(--primary) !important;
+}
+
 .v-bottom-navigation {
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: var(--nav-shadow) !important;
   background-color: var(--nav-bg) !important;
   border-top: 1px solid var(--nav-border) !important;
   height: 64px !important;
@@ -434,9 +469,35 @@ export default {
   width: 100% !important;
 }
 
+.mobile-bottom-nav {
+  color: var(--nav-text) !important;
+}
+
 .v-bottom-navigation .v-btn {
   min-width: 0 !important;
   padding: 0 8px !important;
+}
+
+.mobile-nav-btn {
+  color: var(--nav-text) !important;
+}
+
+.mobile-nav-btn .v-icon {
+  color: var(--nav-icon) !important;
+}
+
+.mobile-nav-btn.active, 
+.mobile-nav-btn.v-btn--active {
+  color: var(--primary) !important;
+}
+
+.mobile-nav-btn.active .v-icon, 
+.mobile-nav-btn.v-btn--active .v-icon {
+  color: var(--primary) !important;
+}
+
+.close-btn {
+  color: var(--primary) !important;
 }
 
 .v-bottom-navigation .v-btn .v-icon {
