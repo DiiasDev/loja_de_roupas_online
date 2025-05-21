@@ -124,6 +124,7 @@ export default {
     redireciona() {
       this.appStore.isPerfil = true;
       this.appStore.isProduct = false;
+      this.appStore.isHome = false;
     },
     redirecionaProduct() {
       this.appStore.isProduct = true

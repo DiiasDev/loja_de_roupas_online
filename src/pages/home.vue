@@ -10,8 +10,8 @@
                 <TabNavigation v-model="categoriaSelecionada" @change="onCategoriaChange" />
             </v-row>
 
-            <v-row> <!-- Ajuste o valor conforme necessário -->
-                <CardsProduto :produtos="produtosFiltrados" />
+            <v-row> 
+                <CardsProduto v-if="appStore.isHome == true" :produtos="produtosFiltrados" />
             </v-row>
 
         </v-container>
