@@ -1,16 +1,16 @@
 <template>
     <NavigationVue />
     <v-main class="main-scroll body">
-        <v-container fluid>
-            <v-row class="ml-3" v-if="!appStore.isPerfil" dense align="center" no-gutters>
-                <v-col class="d-flex justify-center">
-                    <v-card class="mt-3" height="35vh" width="80vw" :style="bannerStyle">
+        <v-container fluid class="px-2 px-sm-3 px-md-6">
+            <v-row class="mx-0 mx-sm-2" v-if="!appStore.isPerfil" dense align="center" no-gutters>
+                <v-col cols="12" class="d-flex justify-center">
+                    <v-card class="mt-3 banner-card" :style="bannerStyle">
                     </v-card>
                 </v-col>
-                <TabNavigation v-model="categoriaSelecionada" @change="onCategoriaChange" />
+                <TabNavigation v-model="categoriaSelecionada" @change="onCategoriaChange" class="w-100" />
             </v-row>
 
-            <v-row> 
+            <v-row class="mx-0 mx-sm-2"> 
                 <CardsProduto v-if="appStore.isHome == true" :produtos="produtosFiltrados" />
             </v-row>
 
@@ -93,6 +93,11 @@ export default {
     background: var(--card-highlight);
 }
 
+.banner-card {
+    width: 95%;
+    height: 30vh;
+}
+
 .custom-button {
     width: 100%;
     font-weight: bold;
@@ -130,11 +135,11 @@ export default {
 }
 
 .v-row {
-    margin-top: 30px;
+    margin-top: 15px;
 }
 
 .v-col {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .v-navigation-drawer .v-list-item {
@@ -143,5 +148,39 @@ export default {
 
 .v-main {
     background-color: #f4f4f4;
+}
+
+/* Responsive styles */
+@media (min-width: 600px) {
+    .banner-card {
+        width: 90%;
+        height: 35vh;
+    }
+    
+    .v-row {
+        margin-top: 20px;
+    }
+}
+
+@media (min-width: 960px) {
+    .banner-card {
+        width: 80vw;
+        height: 35vh;
+    }
+    
+    .v-row {
+        margin-top: 30px;
+    }
+}
+
+@media (max-width: 599px) {
+    .v-container {
+        padding: 8px !important;
+    }
+    
+    .v-col {
+        padding: 8px !important;
+        margin-bottom: 8px;
+    }
 }
 </style>
