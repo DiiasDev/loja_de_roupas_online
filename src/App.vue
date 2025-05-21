@@ -39,19 +39,26 @@ export default {
     NavigationVue,
     productsPage
   },
+  
+  data() {
+    return {
+      appStore: useAppStore()
+    }
+  },
 
-  mounted() {
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    this.appStore.isLight = savedTheme === 'light';
-    this.appStore.isDark = savedTheme === 'dark';
+  created() {
+    this.initializeTheme();
   },
 
   computed: {
-    appStore() {
-      return useAppStore();
-    },
-    methods: {
+  },
+
+  methods: {
+    initializeTheme() {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      this.appStore.isLight = savedTheme === 'light';
+      this.appStore.isDark = savedTheme === 'dark';
     }
   }
 }
