@@ -1,6 +1,6 @@
 <template>
   <v-row class="profile-row mb-8 pb-8" align="start" justify="center">
-    <v-col cols="12" md="10" lg="8" xl="6" style="max-height: 4px !important;">
+    <v-col cols="12" md="10" lg="8" xl="6" >
       <navgation />
 
       <v-card :class="display.xs ? '' : ''" class="profile-card">
@@ -500,7 +500,7 @@ html {
   .profile-details {
     padding-left: 0;
     padding-right: 0;
-    margin-top: 20px;
+    /* margin-top: 20px; */
   }
 }
 
