@@ -27,7 +27,7 @@
             <v-btn v-if="Appstore.isProduct" color="error" small outlined @click="excluirProduto(produto.idProduct)">
                 🗑️ Excluir
             </v-btn>
-            <v-btn v-else color="green" small outlined @click="addToCar()">
+            <v-btn v-else color="green" small outlined @click="addToCar(produto)">
                 ➕ Adicionar ao carrinho
             </v-btn>
         </div>
@@ -61,8 +61,12 @@ export default {
                 localStorage.setItem('Produtos', JSON.stringify(this.Appstore.productsSaved));
             }
         },
-        addToCar() {
-
+        addToCar(produto) {
+            this.Appstore.cart.push(produto);
+            localStorage.setItem('Carrinho', JSON.stringify(this.Appstore.cart));
+            alert('Produto adicionado ao carrinho!');
+            
+            this.Appstore.modalCarrinho = true;
         },
         getCategoryColor(category) {
             const colorMap = {

@@ -21,6 +21,7 @@ export const useAppStore = defineStore("app", {
     isLight: true,
     isHome: true,
     isProduct: false,
+    cart: [],
     productsSaved: (() => {
       try {
         const storedProducts = JSON.parse(localStorage.getItem('Produtos'));
