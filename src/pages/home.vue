@@ -10,8 +10,9 @@
                 <TabNavigation v-model="categoriaSelecionada" @change="onCategoriaChange" class="w-100" />
             </v-row>
 
-            <v-row class="mx-0 mx-sm-2"> 
-                <CardsProduto v-if="appStore.isHome == true" :produtos="produtosFiltrados" />
+            <v-row class="ml-10">
+                <CardsProduto :style="!display.xs? 'ml-9' : ''" v-if="appStore.isHome == true"
+                    :produtos="produtosFiltrados" />
             </v-row>
 
         </v-container>
@@ -24,6 +25,7 @@ import bannerImage from '@/assets/novawear.png';
 import NavigationVue from '../components/reutilizaveis/navigation.vue'
 import TabNavigation from '../components/tabNavigation/TabNavigation.vue'
 import CardsProduto from '../components/cardsProduto/CardsProduto.vue'
+import { useDisplay } from 'vuetify';
 
 export default {
     name: 'HomeVue',
@@ -40,6 +42,7 @@ export default {
                 backgroundPosition: 'center',
             },
             categoriaSelecionada: 'Camisa',
+            display: useDisplay(),
         }
     },
     mounted() {
@@ -156,7 +159,7 @@ export default {
         width: 90%;
         height: 35vh;
     }
-    
+
     .v-row {
         margin-top: 20px;
     }
@@ -167,7 +170,7 @@ export default {
         width: 80vw;
         height: 35vh;
     }
-    
+
     .v-row {
         margin-top: 30px;
     }
@@ -177,7 +180,7 @@ export default {
     .v-container {
         padding: 8px !important;
     }
-    
+
     .v-col {
         padding: 8px !important;
         margin-bottom: 8px;
