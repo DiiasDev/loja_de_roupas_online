@@ -325,54 +325,102 @@ html {
 
 .profile-row {
   background-color: var(--background);
-  /* padding: 0 10px; */
   padding-bottom: 80px;
   margin-bottom: 20px;
 }
 
 .profile-card {
   background-color: var(--card-bg);
-  box-shadow: var(--card-shadow);
-  border-radius: 15px;
-  padding: 20px;
-  /* margin-top: 30px; */
-  transition: all 0.3s ease;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  border-radius: 18px;
+  padding: 30px;
+  transition: all 0.4s ease;
   max-width: 100%;
   overflow-x: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
 }
 
 .profile-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--card-hover-shadow);
+  transform: translateY(-7px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
   background-color: var(--card-highlight);
 }
 
+.profile-card::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, var(--primary), transparent, var(--primary));
+  z-index: -1;
+  border-radius: 19px;
+  background-size: 300% 300%;
+  animation: gradientBorder 8s ease infinite;
+  opacity: 0.5;
+}
+
+@keyframes gradientBorder {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .profile-title {
-  font-size: 2.4rem;
-  font-weight: 600;
+  font-size: 2.6rem;
+  font-weight: 700;
   color: var(--text-primary);
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(to right, var(--primary), #6c5ce7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .profile-info {
-  padding: 10px;
-  font-size: 1.1rem;
+  padding: 15px;
+  font-size: 1.15rem;
   color: var(--text-secondary);
 }
 
 .profile-details {
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .profile-details p {
-  margin: 12px 0;
+  margin: 15px 0;
   word-break: break-word;
+  transition: all 0.3s;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-left: 3px solid var(--primary);
+}
+
+.profile-details p strong {
+  color: var(--primary);
+  font-weight: 600;
 }
 
 .user-welcome {
   word-break: break-word;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: var(--text-primary);
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
 .profile-image {
@@ -385,38 +433,79 @@ html {
 
 .button-group {
   display: flex;
-  gap: 15px;
+  gap: 18px;
   flex-wrap: wrap;
+  margin-top: 10px;
 }
 
 .profile-btn {
-  min-width: 130px;
+  min-width: 140px;
+  height: 44px;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  text-transform: none;
+  font-size: 1.05rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.profile-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.profile-btn:active {
+  transform: translateY(0);
 }
 
 .v-btn {
-  font-weight: 500;
-  border-radius: 25px;
+  font-weight: 600;
+  border-radius: 12px;
 }
 
 .v-btn.primary {
-  background-color: var(--primary);
-  color: var(--text-text);
+  background: linear-gradient(135deg, var(--primary), #6c5ce7) !important;
+  color: white;
 }
 
 .v-btn.secondary {
-  background-color: var(--surface);
+  background: linear-gradient(135deg, #f2f2f2, #e0e0e0) !important;
   color: var(--text-primary);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.v-btn:hover {
-  opacity: 0.9;
+.profile-avatar {
+  border: 3px solid var(--primary);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  position: relative;
 }
 
+.profile-avatar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+.profile-avatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Edit Profile Modal Styles */
 .edit-profile-modal {
   background-color: var(--modal-bg) !important;
-  border: 1px solid var(--modal-border);
-  box-shadow: var(--modal-shadow);
-  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
   overflow: hidden;
   width: 100%;
   max-width: 95vw;
@@ -424,65 +513,87 @@ html {
 }
 
 .modal-title {
-  background-color: var(--modal-header);
-  color: var(--text-text);
-  padding: 20px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, var(--primary), #6c5ce7);
+  color: white;
+  padding: 25px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  font-size: 1.8rem;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .modal-content {
-  padding: 25px;
+  padding: 30px;
   color: var(--text-primary);
 }
 
 .modal-content .v-text-field {
-  margin-bottom: 12px;
+  margin-bottom: 15px;
 }
 
 .modal-content .v-text-field>>>.v-input__slot {
   background-color: var(--surface) !important;
   color: var(--text-primary) !important;
+  border-radius: 12px;
+  padding: 5px 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.modal-content .v-text-field>>>.v-input__slot:focus-within {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  border-color: var(--primary);
+  transform: translateY(-1px);
 }
 
 .modal-content .v-text-field>>>label {
   color: var(--text-secondary) !important;
+  font-weight: 500;
 }
 
 .modal-content .v-text-field>>>input {
   color: var(--text-primary) !important;
+  font-size: 1.05rem;
 }
 
 .modal-actions {
-  padding: 15px 25px;
-  border-top: 1px solid var(--modal-border);
+  padding: 20px 30px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
+  background-color: rgba(0, 0, 0, 0.02);
 }
 
 .cancel-btn {
   color: var(--text-primary) !important;
-  border: 1px solid var(--modal-border) !important;
-  margin-right: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  margin-right: 12px;
   margin-bottom: 8px;
+  background: linear-gradient(to bottom, #f5f5f5, #e0e0e0) !important;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cancel-btn:hover {
+  background: linear-gradient(to bottom, #e0e0e0, #d5d5d5) !important;
 }
 
 .save-btn {
-  background-color: var(--primary) !important;
-  color: var(--text-text) !important;
+  background: linear-gradient(135deg, var(--primary), #6c5ce7) !important;
+  color: white !important;
   margin-bottom: 8px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Adicionar estilos para o modal de edição */
-.profile-avatar {
-  border: 2px solid var(--primary);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  margin-bottom: 20px;
+.save-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3);
 }
 
 .v-dialog {
-  border-radius: 15px;
+  border-radius: 20px;
 }
 
 .responsive-dialog {
@@ -491,7 +602,7 @@ html {
 
 /* Add spacing for bottom navigation */
 .bottom-spacer {
-  height: 80px; /* Adjust the height based on your bottom navigation's height */
+  height: 80px;
   width: 100%;
 }
 
@@ -500,7 +611,14 @@ html {
   .profile-details {
     padding-left: 0;
     padding-right: 0;
-    /* margin-top: 20px; */
+  }
+  
+  .profile-card {
+    padding: 25px 20px;
+  }
+  
+  .profile-title {
+    font-size: 2.3rem;
   }
 }
 
@@ -519,11 +637,21 @@ html {
     width: 100%;
     max-width: 200px;
   }
+  
+  .user-welcome {
+    font-size: 1.6rem;
+  }
+  
+  .modal-title {
+    padding: 20px;
+    font-size: 1.6rem;
+  }
 }
 
 @media (max-width: 600px) {
   .profile-card {
-    padding: 15px 10px;
+    padding: 20px 15px;
+    border-radius: 15px;
   }
 
   .profile-title {
@@ -533,6 +661,12 @@ html {
 
   .profile-info {
     padding: 5px;
+    font-size: 1rem;
+  }
+  
+  .profile-details p {
+    padding: 6px 8px;
+    margin: 10px 0;
     font-size: 1rem;
   }
 
@@ -556,7 +690,7 @@ html {
   }
 
   .modal-actions {
-    padding: 10px;
+    padding: 15px;
     justify-content: center;
   }
 
@@ -574,6 +708,14 @@ html {
 
   .profile-title {
     font-size: 1.6rem;
+  }
+  
+  .profile-card {
+    padding: 15px 10px;
+  }
+  
+  .profile-details p {
+    font-size: 0.9rem;
   }
 }
 </style>

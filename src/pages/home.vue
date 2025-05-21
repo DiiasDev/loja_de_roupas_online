@@ -7,11 +7,14 @@
                     <v-card class="mt-3 banner-card" :style="bannerStyle">
                     </v-card>
                 </v-col>
-                <TabNavigation v-model="categoriaSelecionada" @change="onCategoriaChange" class="w-100" />
+                <v-col class="d-flex justify-center" style="margin: auto;" cols="12">
+                    <TabNavigation style="width: 90% !important;" v-model="categoriaSelecionada"
+                        @change="onCategoriaChange" />
+                </v-col>
             </v-row>
 
-            <v-row class="ml-10">
-                <CardsProduto :style="!display.xs? 'ml-9' : ''" v-if="appStore.isHome == true"
+            <v-row :class="!display.xs?  'ml-10' : ''">
+                <CardsProduto :style="!display.xs? 'ml-9' : 'mr-4'" v-if="appStore.isHome == true"
                     :produtos="produtosFiltrados" />
             </v-row>
 
