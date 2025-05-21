@@ -18,10 +18,27 @@
             </v-col>
         </v-row>
         <v-row>
-            <v-col cols="12" md="6">
+            <v-col :class="display.xs ? 'pb-8 mb-8' : ''" cols="12" md="6">
                 <h2 class="subtitle">Conecte-se conosco:</h2>
-                <ul class="social-links">
+                <ul v-if="display.xs" class="social-links">
+                    <v-row style=" gap: 1rem;">
+                        <li>
+                            <v-icon color="blue">mdi-linkedin</v-icon>
+                            <a href="https://www.linkedin.com/in/gabriel-dias-8a8209255/" target="_blank">Linkedin</a>
+                        </li>
+                        <li>
+                            <v-icon color="black">mdi-github</v-icon>
+                            <a href="https://github.com/DiiasDev" target="_blank">GitHub</a>
+                        </li>
+                        <li>
+                            <v-icon color="pink">mdi-instagram</v-icon>
+                            <a href="https://www.instagram.com/diiassf/?next=%2F" target="_blank">Instagram</a>
+                        </li>
+                    </v-row>
 
+                </ul>
+
+                <ul v-else class="social-links">
                     <li>
                         <v-icon color="blue">mdi-linkedin</v-icon>
                         <a href="https://www.linkedin.com/in/gabriel-dias-8a8209255/" target="_blank">Linkedin</a>
@@ -42,8 +59,14 @@
 
 <script>
 import { useAppStore } from '../store/app.ts';
+import { useDisplay } from 'vuetify';
 export default {
     name: "SobreLoja",
+    data() {
+        return {
+            display: useDisplay()
+        }
+    },
     computed: {
         appStore() {
             return useAppStore()

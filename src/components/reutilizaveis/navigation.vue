@@ -1,5 +1,6 @@
 <template>
-  <v-navigation-drawer expand-on-hover rail permanent app
+  <!-- Desktop navigation -->
+  <v-navigation-drawer v-if="!isMobile" expand-on-hover rail permanent app
     style="position: fixed; top: 0; left: 0; height: 100vh; overflow-y: auto;">
     <v-list>
       <v-list-item :prepend-avatar="perfil.profileImage" :subtitle="perfil.email" :title="perfil.name">
@@ -16,9 +17,78 @@
       <v-list-item @click="redirecionaAbout" prepend-icon="mdi-information" title="Sobre a Loja" value="about" />
       <v-list-item @click="openModalSuporte" prepend-icon="mdi-face-agent" title="Suporte" value="support" />
       <v-list-item @click="changeTheme" :prepend-icon="currentIcon" title="Mudar Tema" value="Mudar Tema" />
-
     </v-list>
   </v-navigation-drawer>
+
+  <!-- Mobile full menu that slides from bottom -->
+  <v-bottom-sheet v-model="mobileDrawerOpen" v-if="isMobile" class="mobile-menu-sheet">
+    <v-card class="mobile-menu-card">
+      <!-- User profile section -->
+      <v-card-item class="mobile-user-profile">
+        <v-avatar size="60" class="mr-4">
+          <v-img :src="perfil.profileImage || 'https://cdn.vuetifyjs.com/images/john.jpg'" alt="User Avatar"></v-img>
+        </v-avatar>
+        <div>
+          <v-card-title class="pa-0">{{ perfil.name || 'Usuário' }}</v-card-title>
+          <v-card-subtitle class="pa-0">{{ perfil.email || 'exemplo@email.com' }}</v-card-subtitle>
+        </div>
+      </v-card-item>
+      
+      <v-divider class="my-2"></v-divider>
+      
+      <!-- Menu items in a grid layout -->
+      <v-container>
+        <v-row>
+          <v-col cols="4" class="text-center" v-for="(item, index) in menuItems" :key="index">
+            <v-btn variant="text" @click="executeAction(item.action)" class="mobile-menu-btn" width="100%" height="80">
+              <v-col class="pa-0">
+                <v-icon size="large" :color="getActiveColor(item.value)">{{ item.icon }}</v-icon>
+                <div class="text-caption mt-1">{{ item.title }}</div>
+              </v-col>
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-container>
+      
+      <v-divider class="my-2"></v-divider>
+      
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn variant="text" color="primary" @click="mobileDrawerOpen = false">
+          Fechar
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-bottom-sheet>
+
+  <!-- Mobile bottom navigation bar -->
+  <v-bottom-navigation v-if="isMobile" app fixed color="primary" grow>
+    <v-btn @click="inicio" :value="appStore.isHome">
+      <v-icon>mdi-home</v-icon>
+      <span class="text-caption">Início</span>
+    </v-btn>
+    
+    <v-btn @click="redirecionaProduct" :value="appStore.isProduct">
+      <v-icon>mdi-package-variant</v-icon>
+      <span class="text-caption">Produtos</span>
+    </v-btn>
+    
+    <v-btn @click="openCarrinho" :value="appStore.modalCarrinho">
+      <v-icon>mdi-cart</v-icon>
+      <span class="text-caption">Carrinho</span>
+    </v-btn>
+    
+    <v-btn @click="redireciona" :value="appStore.isPerfil">
+      <v-icon>mdi-account</v-icon>
+      <span class="text-caption">Perfil</span>
+    </v-btn>
+    
+    <v-btn @click="toggleMobileNav">
+      <v-icon>mdi-menu</v-icon>
+      <span class="text-caption">Menu</span>
+    </v-btn>
+  </v-bottom-navigation>
+
   <v-container>
     <template>
       <SobreLoja v-if="appStore.isAbout == true" />
@@ -26,7 +96,6 @@
     <CarrinhoDeCompras />
     <modalSuporte />
   </v-container>
-
 </template>
 
 <script>
@@ -54,7 +123,18 @@ export default {
         profileImage: ''
       },
       userDataWatcher: null,
-      profileCheckInterval: null
+      profileCheckInterval: null,
+      windowWidth: window.innerWidth,
+      mobileDrawerOpen: false,
+      menuItems: [
+        { title: 'Início', icon: 'mdi-home', action: 'inicio', value: 'isHome' },
+        { title: 'Produtos', icon: 'mdi-package-variant', action: 'redirecionaProduct', value: 'isProduct' },
+        { title: 'Perfil', icon: 'mdi-account', action: 'redireciona', value: 'isPerfil' },
+        { title: 'Carrinho', icon: 'mdi-cart', action: 'openCarrinho', value: 'modalCarrinho' },
+        { title: 'Sobre a Loja', icon: 'mdi-information', action: 'redirecionaAbout', value: 'isAbout' },
+        { title: 'Suporte', icon: 'mdi-face-agent', action: 'openModalSuporte', value: 'modalSuporte' },
+        { title: 'Mudar Tema', icon: () => this.currentIcon, action: 'changeTheme', value: 'theme' },
+      ]
     }
   },
   mounted() {
@@ -84,11 +164,15 @@ export default {
     
     // Add mutation observer to detect DOM changes that might indicate profile updates
     this.setupMutationObserver();
+    
+    // Add window resize event listener for responsive behavior
+    window.addEventListener('resize', this.onResize);
   },
   beforeUnmount() {
     // Clean up event listeners when component is destroyed
     window.removeEventListener('user-profile-updated', this.refreshUserData);
     window.removeEventListener('storage', this.refreshUserData);
+    window.removeEventListener('resize', this.onResize);
     
     // Clear interval
     if (this.profileCheckInterval) {
@@ -106,37 +190,77 @@ export default {
     },
     currentIcon() {
       return this.appStore.isLight ? this.icon.light : this.icon.dark;
+    },
+    isMobile() {
+      return this.windowWidth < 768; // Breakpoint for mobile devices
     }
   },
   methods: {
+    getActiveColor(value) {
+      if (value === 'theme') {
+        return 'primary';
+      }
+      
+      return this.appStore[value] ? 'primary' : '';
+    },
+    executeAction(action) {
+      if (typeof this[action] === 'function') {
+        this[action]();
+      }
+    },
+    onResize() {
+      this.windowWidth = window.innerWidth;
+    },
+    toggleMobileNav() {
+      this.mobileDrawerOpen = !this.mobileDrawerOpen;
+    },
     openCarrinho() {
-      this.appStore.modalCarrinho = true
+      this.appStore.modalCarrinho = true;
+      if (this.isMobile) {
+        this.mobileDrawerOpen = false;
+      }
     },
     openModalSuporte() {
-      this.appStore.modalSuporte = true
+      this.appStore.modalSuporte = true;
+      if (this.isMobile) {
+        this.mobileDrawerOpen = false;
+      }
     },
     inicio() {
       this.appStore.isHome = true;
       this.appStore.isPerfil = false;
       this.appStore.isAbout = false;
-      this.appStore.isProduct = false
+      this.appStore.isProduct = false;
+      if (this.isMobile) {
+        this.mobileDrawerOpen = false;
+      }
     },
     redireciona() {
       this.appStore.isPerfil = true;
       this.appStore.isProduct = false;
       this.appStore.isHome = false;
+      this.appStore.isAbout = false;
+      if (this.isMobile) {
+        this.mobileDrawerOpen = false;
+      }
     },
     redirecionaProduct() {
-      this.appStore.isProduct = true
+      this.appStore.isProduct = true;
       this.appStore.isAbout = false;
       this.appStore.isHome = false;
       this.appStore.isPerfil = false;
+      if (this.isMobile) {
+        this.mobileDrawerOpen = false;
+      }
     },
     redirecionaAbout() {
       this.appStore.isAbout = true;
       this.appStore.isHome = false;
       this.appStore.isPerfil = false;
       this.appStore.isProduct = false;
+      if (this.isMobile) {
+        this.mobileDrawerOpen = false;
+      }
     },
     changeTheme() {
       const htmlElement = document.documentElement;
@@ -159,7 +283,10 @@ export default {
       htmlElement.setAttribute('data-theme', theme);
 
       localStorage.setItem('theme', theme);
-
+      
+      if (this.isMobile) {
+        this.mobileDrawerOpen = false;
+      }
     },
     setupMutationObserver() {
       // Create a mutation observer to detect DOM changes that might indicate profile updates
@@ -182,7 +309,6 @@ export default {
       });
     },
     
-    // Use localStorage with a timestamp to detect changes
     checkForProfileUpdates() {
       const currentData = localStorage.getItem('user');
       if (currentData) {
@@ -203,7 +329,6 @@ export default {
       }
     },
     
-    // Debounce refresh to prevent too many updates
     debounceRefresh: (function() {
       let timeout = null;
       return function() {
@@ -262,6 +387,52 @@ export default {
   box-shadow: var(--nav-shadow) !important;
 }
 
+/* Mobile menu styling */
+.mobile-menu-sheet {
+  z-index: 1000 !important;
+}
+
+.mobile-menu-card {
+  border-radius: 16px 16px 0 0 !important;
+  padding: 16px 8px !important;
+  background-color: var(--nav-bg) !important;
+}
+
+.mobile-user-profile {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+}
+
+.mobile-menu-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.mobile-menu-btn:hover {
+  background-color: var(--nav-hover) !important;
+}
+
+.v-bottom-navigation {
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1) !important;
+  background-color: var(--nav-bg) !important;
+  border-top: 1px solid var(--nav-border) !important;
+  height: 64px !important;
+}
+
+.v-bottom-navigation .v-btn {
+  min-width: 0 !important;
+  padding: 0 8px !important;
+}
+
+.v-bottom-navigation .v-btn .v-icon {
+  margin-bottom: 2px !important;
+}
+
 .v-list-item {
   color: var(--nav-text) !important;
   transition: all 0.3s ease !important;
@@ -284,24 +455,23 @@ export default {
   border-color: var(--nav-border) !important;
 }
 
-.v-list-item__title {
-  font-weight: 500 !important;
-  font-size: 0.95rem !important;
+/* Layout adjustments */
+.v-container {
+  padding: 0px;
+  background-color: transparent !important;
 }
 
-.v-list-item__subtitle {
-  color: var(--text-secondary) !important;
-  font-size: 0.8rem !important;
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  .v-container {
+    margin-bottom: 64px;
+  }
 }
 
-/* Avatar container styling */
-.v-list-item:first-child {
-  padding: 1rem !important;
-  margin-bottom: 0.5rem !important;
-}
-
-.v-list-item:first-child .v-avatar {
-  border: 2px solid var(--primary) !important;
+@media (min-width: 769px) {
+  .v-container {
+    margin-bottom: 0;
+  }
 }
 
 /* Mantendo outras propriedades importantes */
@@ -313,15 +483,4 @@ export default {
 .v-layout {
   padding: 0px;
 }
-
-.v-container {
-  padding: 0px;
-  background-color: transparent !important;
-}
-
-/* Remover completamente ou comentar a classe homeIcon que não é mais necessária */
-/* .homeIcon{
-  margin-right: 1rem;
-  padding-right: 1rem;
-} */
 </style>
