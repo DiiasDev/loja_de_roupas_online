@@ -20,10 +20,8 @@
     </v-list>
   </v-navigation-drawer>
 
-  <!-- Mobile full menu that slides from bottom -->
   <v-bottom-sheet v-model="mobileDrawerOpen" v-if="isMobile" class="mobile-menu-sheet">
     <v-card class="mobile-menu-card">
-      <!-- User profile section -->
       <v-card-item class="mobile-user-profile">
         <v-avatar size="60" class="mr-4">
           <v-img :src="perfil.profileImage || 'https://cdn.vuetifyjs.com/images/john.jpg'" alt="User Avatar"></v-img>
@@ -36,7 +34,6 @@
       
       <v-divider class="my-2"></v-divider>
       
-      <!-- Menu items in a grid layout -->
       <v-container>
         <v-row>
           <v-col cols="4" class="text-center" v-for="(item, index) in menuItems" :key="index">
