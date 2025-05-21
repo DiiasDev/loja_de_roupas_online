@@ -1,6 +1,6 @@
 <template>
     <v-row>
-        <v-col>
+        <v-col cols="6" class="d-flex justify-center colsTab">
             <div class="custom-tabs-container">
                 <div class="tabs-wrapper">
                     <v-tabs v-model="categoriaSelecionada" background-color="transparent"

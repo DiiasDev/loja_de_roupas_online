@@ -23,16 +23,16 @@
                 <ul class="social-links">
 
                     <li>
-                        <v-icon color="blue">mdi-facebook</v-icon>
-                        <a href="https://facebook.com/novawear" target="_blank">Facebook</a>
+                        <v-icon color="blue">mdi-linkedin</v-icon>
+                        <a href="https://www.linkedin.com/in/gabriel-dias-8a8209255/" target="_blank">Linkedin</a>
                     </li>
                     <li>
-                        <v-icon color="light-blue">mdi-twitter</v-icon>
-                        <a href="https://twitter.com/novawear" target="_blank">Twitter</a>
+                        <v-icon color="black">mdi-github</v-icon>
+                        <a href="https://github.com/DiiasDev" target="_blank">GitHub</a>
                     </li>
                     <li>
                         <v-icon color="pink">mdi-instagram</v-icon>
-                        <a href="https://instagram.com/novawear" target="_blank">Instagram</a>
+                        <a href="https://www.instagram.com/diiassf/?next=%2F" target="_blank">Instagram</a>
                     </li>
                 </ul>
             </v-col>

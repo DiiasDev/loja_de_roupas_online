@@ -41,7 +41,7 @@ export const useAppStore = defineStore("app", {
         return 1;
       }
     })(),
-    categories: ['Todos', 'Camisa', 'Calça', 'Bermuda', 'Vestido', 'Jaquetas/Moletons'],
+    categories: ['Camisa', 'Calça', 'Bermuda', 'Vestido', 'Jaquetas/Moletons'],
     productName: '',
     categoriaProduct: [],
     descricaoProduct: '',
