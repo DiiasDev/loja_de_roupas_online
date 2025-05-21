@@ -12,6 +12,13 @@ export const useAppStore = defineStore("app", {
       }
     })(),
     isLoged: JSON.parse(localStorage.getItem('isLoged') || 'false'),
+    currentUser: (() => {
+      try {
+        return JSON.parse(localStorage.getItem('currentUser')) || null;
+      } catch {
+        return null;
+      }
+    })(),
     modalCarrinho: false,
     modalSuporte: false,
     modalCadastroProduct: false,
@@ -49,12 +56,22 @@ export const useAppStore = defineStore("app", {
     precoProduct: '',
     urlImageProduct: ''
   }),
-  getters: {},
+  getters: {
+    isAuthenticated() {
+      return this.isLoged && this.currentUser !== null;
+    }
+  },
 
   actions: {
     saveToLocalStorage() {
       localStorage.setItem('user', JSON.stringify(this.user));
       localStorage.setItem('isLoged', JSON.stringify(this.isLoged));
+      
+      if (this.currentUser) {
+        localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+      } else {
+        localStorage.removeItem('currentUser');
+      }
     },
     addUser(newUser) {
       this.user.push(newUser);
@@ -62,9 +79,47 @@ export const useAppStore = defineStore("app", {
     },
     setIsLoged(status) {
       this.isLoged = status;
+      if (!status) {
+        this.currentUser = null;
+      }
       this.saveToLocalStorage();
     },
-
+    login(userCredentials) {
+      const user = this.user.find(u => 
+        u.email === userCredentials.email && 
+        u.password === userCredentials.password
+      );
+      
+      if (user) {
+        this.currentUser = { ...user, password: undefined };
+        this.isLoged = true;
+        this.saveToLocalStorage();
+        return true;
+      }
+      
+      return false;
+    },
+    logout() {
+      this.isLoged = false;
+      this.currentUser = null;
+      this.saveToLocalStorage();
+    },
+    checkAuthState() {
+      console.log('Checking auth state:', { 
+        isLoged: this.isLoged, 
+        hasCurrentUser: !!this.currentUser 
+      });
+      
+      if (this.isLoged && !this.currentUser) {
+        console.log('Auth state mismatch - resetting login state');
+        this.isLoged = false;
+        localStorage.setItem('isLoged', 'false');
+      } else if (this.currentUser && !this.isLoged) {
+        console.log('Current user exists but not logged in - restoring session');
+        this.isLoged = true;
+        localStorage.setItem('isLoged', JSON.stringify(true));
+      }
+    },
     addProduct() {
       if (
         !this.productName.trim() ||
@@ -115,7 +170,6 @@ export const useAppStore = defineStore("app", {
         console.log('Erro ao carregar produtos do localStorage', error);
       }
     },
-
     showProduct() {
       try {
         if (this.product) {

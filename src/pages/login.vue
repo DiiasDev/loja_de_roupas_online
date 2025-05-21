@@ -9,7 +9,7 @@
                     <v-form>
                         <v-text-field label="Email" type="email" v-model="email" required :density="display.xs ? 'compact' : 'default'"></v-text-field>
                         <v-text-field label="Senha" type="password" v-model="password" required :density="display.xs ? 'compact' : 'default'"></v-text-field>
-                        <v-btn color="primary" @click="isLoged" class="mt-4" :block="display.xs || display.sm">Entrar</v-btn>
+                        <v-btn color="primary" @click="login" class="mt-4" :block="display.xs || display.sm">Entrar</v-btn>
                         <v-card-text class="px-0">Ainda não tem login? Clique <strong style="cursor: pointer;"
                                 @click="openModal">aqui</strong> para
                             cadastrar.</v-card-text>
@@ -58,26 +58,21 @@ export default {
                 console.error("Erro ao abrir o modal: ", e);
             }
         },
-        isLoged() {
-            try {
-                const userString = localStorage.getItem('user');
-                const users = JSON.parse(userString);
-                const userExist = users.find(e => e.email === this.email && e.password === this.password);
-
-                if (!userExist) {
-                    this.exibeMessage = `<v-card-text style="color: red;">Email ou Senha incorreto!</v-card-text>`;
-                    return;
-                }
-                this.exibeMessage = `<v-card-text style="color: blue;">Logando...</v-card-text>`;
-                setTimeout(() => {
-                    this.appStore.isLoged = true;
-                }, 1500)
-                useAppStore.isHome = true
-            } catch(e) {
-            console.error("Erro ao realizar login: ", e);
+        login() {
+            const credentials = {
+                email: this.email,
+                password: this.password
+            };
+            
+            const success = this.appStore.login(credentials);
+            if (success) {
+                console.log('Login successful');
+                this.appStore.isHome = true;
+            } else {
+                console.log('Login failed - invalid credentials');
+            }
         }
     }
-}
 }
 </script>
 
