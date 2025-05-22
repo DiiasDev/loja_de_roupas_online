@@ -55,7 +55,7 @@ export default {
         createUser() {
             // this.exibeMessage = '<span style="color: blue;">Processando cadastro...</span>';
 
-            const userExists = this.appStore.user.find(e => e.email === this.user.email);
+            const userExists = this.appStore.user.find(e => e.email === this.user.email.toLowerCase());
 
             if (userExists) {
                 this.exibeMessage = `<span style="color: red;">Usuário já cadastrado!</span>`;
@@ -70,7 +70,7 @@ export default {
             this.appStore.user.push({
                 name: this.user.name,
                 phone: this.user.phone,
-                email: this.user.email,
+                email: this.user.email.toLowerCase(),
                 password: this.user.password,
             });
 
