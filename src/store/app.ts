@@ -66,10 +66,15 @@ export const useAppStore = defineStore("app", {
     userProducts() {
       if (!this.currentUser) return [];
       
-      return this.productsSaved.filter(product => 
-        product.userId === this.currentUser.id || 
-        product.userId === this.currentUser.email
-      );
+      const userId = this.currentUser.id || this.currentUser.email;
+      return this.productsSaved.filter(product => product.userId === userId);
+    },
+
+    filteredProducts() {
+      if (!this.currentUser) return [];
+      
+      const userId = this.currentUser.id || this.currentUser.email;
+      return this.productsSaved.filter(product => product.userId === userId);
     }
   },
 
@@ -190,10 +195,8 @@ export const useAppStore = defineStore("app", {
     getUserProducts() {
       if (!this.currentUser) return [];
       
-      return this.productsSaved.filter(product => 
-        product.userId === this.currentUser.id || 
-        product.userId === this.currentUser.email
-      );
+      const userId = this.currentUser.id || this.currentUser.email;
+      return this.productsSaved.filter(product => product.userId === userId);
     },
     migrateExistingProducts() {
       let needsMigration = false;

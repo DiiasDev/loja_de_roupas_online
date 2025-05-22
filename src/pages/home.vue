@@ -56,8 +56,10 @@ export default {
             return useAppStore();
         },
         produtosFiltrados() {
-            // Home page should show all products from all users, but filtered by category
-            return this.appStore.productsSaved.filter(p => {
+            // Changed to use userProducts instead of productsSaved to only show current user's products
+            const products = this.appStore.isAuthenticated ? this.appStore.userProducts : [];
+            
+            return products.filter(p => {
                 // Handle if categoriaProduct is a string
                 if (typeof p.categoriaProduct === 'string') {
                     return p.categoriaProduct === this.categoriaSelecionada;
