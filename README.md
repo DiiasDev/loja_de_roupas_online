@@ -59,6 +59,8 @@ Aqui, você pode navegar, cadastrar produtos, gerenciar seu perfil e fazer suas 
 
 ## 📸 Demonstração
 
+ACESSE O PROJETO: [https://novawearon.netlify.app/]
+
 ![image](https://github.com/user-attachments/assets/d45c5ebf-327c-4a09-9bf6-25f70bc9efca)
 
 
